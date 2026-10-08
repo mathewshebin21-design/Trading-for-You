@@ -155,9 +155,29 @@ class Controller:
         save_state(p,s)
         save_state(self.folder/'manual'/('intent_'+intent_id+'.json'),{'update_id':update_id,'exchangeInfo':info,'received_ms':seen,'quote':q,'result':result})
         return f"PAPER ONLY {symbol}: {result}; cash {s['cash']:.2f} USDT, units {s['units']:.8f}. Partial fills/dust possible. Manual account only."
+    def notify_market_open(self, results):
+        for r in results:
+            if r.get('symbol')!='US_MARKET' or r.get('status')!='MARKET_OPEN':continue
+            day=r['session_date'];key='us_market_open_notice_'+day
+            # Queue and daily marker commit atomically. Restart must not enqueue
+            # the same session twice. Telegram retry may still duplicate delivery
+            # if sendMessage succeeds but its response is lost.
+            with self.db:
+                if self.db.execute('SELECT 1 FROM settings WHERE k=?',(key,)).fetchone():continue
+                zone=__import__('zoneinfo').ZoneInfo('Asia/Kolkata')
+                def local(ms):return datetime.fromtimestamp(ms/1000,timezone.utc).astimezone(zone).strftime('%d %b %Y %I:%M %p IST')
+                body=('US regular market session is OPEN — PAPER ONLY.\n'
+                      +'Opens: '+local(r['open_ms'])+'\nCloses: '+local(r['close_ms'])
+                      +'\nObserved: '+local(r['observed_ms'])
+                      +'\nUse /status and /trends for current paper observations. '
+                      +'This alert does not confirm a fill or predict returns.')
+                self.db.execute('INSERT INTO outbox(body) VALUES(?)',(body,))
+                self.db.execute('INSERT INTO settings VALUES(?,?)',(key,str(r['observed_ms'])))
+
     async def collect(self):
         results=await poll_session(self.folder/'automatic',allow_entry=self.get('paused')!='1')
         results.extend(await poll_us(self.folder/'us_automatic',allow_entry=self.get('paused')!='1'))
+        self.notify_market_open(results)
         beat={'mode':'PAPER_ONLY','updated_utc':utc(self.clock()),'results':results}
         save_state(self.folder/'heartbeat.json',beat)
         if self.get('notifications')=='1':

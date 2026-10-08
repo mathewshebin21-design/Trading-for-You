@@ -25,3 +25,9 @@ IEX is one venue, not consolidated NBBO. Sparse IEX daily observations can fail 
 Run `python -m unittest discover -s research -p 'test_*.py'` from repository root, or discover in `trading-research` in the original workspace. Tests use synthetic/mocked inputs. No real Telegram delivery, external data connectivity, Docker deployment or sustained operation has been verified.
 
 References: https://docs.alpaca.markets/us/reference/stockbarsingle-1 ; https://docs.alpaca.markets/us/v1.4.2/reference/stocklatestquotes-1 ; https://docs.alpaca.markets/us/reference/legacycalendar
+
+## Telegram market-open alerts
+
+With US_PAPER_ENABLED=1 and working calendar credentials, the collector queues one owner-only US regular-session open notice per trading date. Times are displayed in Asia/Kolkata; the provider calendar handles holidays, daylight saving and early closes. Alerts arrive on the first successful collection during the session, normally within five minutes plus data-request and Telegram latency. A late startup may send a notice later in the session, explicitly labeled with its observation time. Calendar errors and closed sessions send no open notice. Per-date markers and the durable outbox are written in one SQLite transaction, so a restart cannot enqueue the same date twice. Network delivery retries can duplicate a message if Telegram accepted it but its response was lost. Entry pauses do not suppress market-open alerts. No new credentials are needed.
+
+54 synthetic/mocked tests passed after this addition. Actual first market-open delivery remains to be verified.

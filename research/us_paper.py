@@ -58,6 +58,18 @@ def sessions(calendar):
     return result
 
 
+def market_session(calendar, observed):
+    """Describe an active regular session from the provider calendar."""
+    active = [r for r in sessions(calendar) if r[1] <= observed < r[2]]
+    if len(active) > 1:
+        raise ValueError('Overlapping calendar sessions')
+    if not active:
+        return {'symbol':'US_MARKET', 'status':'MARKET_CLOSED'}
+    day, opening, closing = active[0]
+    return {'symbol':'US_MARKET', 'status':'MARKET_OPEN', 'session_date':day,
+            'open_ms':opening, 'close_ms':closing, 'observed_ms':observed}
+
+
 def signal(bars, calendar, observed):
     completed = [r for r in sessions(calendar) if r[2] < observed][-100:]
     if len(completed) != 100:
@@ -156,7 +168,7 @@ async def poll_us(folder, allow_entry=True):
         start = (today-timedelta(days=550)).isoformat()
         calendar = await asyncio.to_thread(get_data, '/v2/calendar', {'start':start,'end':today.isoformat()})
         # Validate calendar before processing accounts, including closed days.
-        sessions(calendar)
+        results.append(market_session(calendar, now_ms()))
     except Exception:
         return [{'symbol':'US','status':'NO_FILL_DATA_ERROR','error':'US calendar/credentials unavailable'}]
     for symbol in SYMBOLS:

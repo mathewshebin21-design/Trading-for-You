@@ -15,6 +15,25 @@ class TelegramTests(unittest.IsolatedAsyncioTestCase):
         return {'update_id':ident,'message':{'date':date,'from':{'id':owner},'chat':{'id':chat,'type':kind},'text':text}}
     def messages(self):return [r[0] for r in self.c.db.execute('SELECT body FROM outbox').fetchall()]
     def code(self):return self.c.db.execute('SELECT code FROM intents WHERE used=0').fetchone()[0]
+    def open_event(self,day='2026-10-08'):
+        from us_paper import sessions
+        row=sessions([{'date':day,'open':'09:30','close':'13:00'}])[0]
+        return {'symbol':'US_MARKET','status':'MARKET_OPEN','session_date':day,
+                'open_ms':row[1],'close_ms':row[2],'observed_ms':row[1]+60000}
+    async def test_market_alert_once_and_restart(self):
+        event=self.open_event();self.c.notify_market_open([event]);self.c.notify_market_open([event])
+        self.c.db.close();self.c=Controller(self.folder,123,clock=lambda:self.now)
+        self.c.notify_market_open([event]);self.assertEqual(len(self.messages()),1)
+        self.assertIn('07:00 PM IST',self.messages()[0]);self.assertIn('10:30 PM IST',self.messages()[0])
+        self.c.notify_market_open([self.open_event('2026-10-09')]);self.assertEqual(len(self.messages()),2)
+    async def test_no_open_notice_for_closed_or_error(self):
+        self.c.notify_market_open([{'symbol':'US_MARKET','status':'MARKET_CLOSED'}, {'symbol':'US','status':'NO_FILL_DATA_ERROR'}])
+        self.assertEqual(self.messages(),[])
+    async def test_collector_market_notification_even_when_entries_paused(self):
+        self.c.set('paused',1)
+        with patch('telegram_paper_bot.poll_session',new_callable=AsyncMock,return_value=[]),patch('telegram_paper_bot.poll_us',new_callable=AsyncMock,return_value=[self.open_event()]):
+            await self.c.collect()
+        self.assertIn('session is OPEN',self.messages()[0])
     async def test_unauthorized_silent(self):
         for i,u in enumerate([self.update('/pause',owner=9),self.update('/pause',chat=-99,kind='group'),self.update('/paper_trade BUY BTCUSDT',owner=9)]):
             u['update_id']=i+1;await self.c.handle(u)

@@ -6,7 +6,7 @@ from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
-from us_paper import ET, account, fill, get_data, poll_us, quote, sessions, signal
+from us_paper import ET, account, fill, get_data, poll_us, quote, sessions, signal, market_session
 
 class USTests(unittest.TestCase):
     def setUp(self):
@@ -46,6 +46,20 @@ class USTests(unittest.TestCase):
         self.assertEqual(fill(self.s,q,early,later),'MARKET_CLOSED')
     def test_stale_fill(self):
         with self.assertRaises(ValueError):fill(self.s,self.q,self.calendar,self.time+6000)
+    def test_market_open_boundaries(self):
+        opening=sessions(self.calendar)[0][1];closing=sessions(self.calendar)[0][2]
+        self.assertEqual(market_session(self.calendar,opening)['status'],'MARKET_OPEN')
+        self.assertEqual(market_session(self.calendar,opening-1)['status'],'MARKET_CLOSED')
+        self.assertEqual(market_session(self.calendar,closing)['status'],'MARKET_CLOSED')
+        self.assertEqual(market_session([],opening)['status'],'MARKET_CLOSED')
+    def test_session_survives_bad_symbol_history(self):
+        def data(path,params):
+            if path=='/v2/calendar':return self.calendar
+            raise ValueError('No bars')
+        with tempfile.TemporaryDirectory() as folder,patch.dict(os.environ,{'US_PAPER_ENABLED':'1'}),patch('us_paper.get_data',side_effect=data),patch('us_paper.now_ms',return_value=self.time):
+            out=asyncio.run(poll_us(folder))
+        self.assertEqual(out[0]['status'],'MARKET_OPEN')
+        self.assertEqual(out[1]['status'],'NO_FILL_DATA_ERROR')
     def test_dst(self):
         rows=sessions([{'date':'2026-03-06','open':'09:30','close':'16:00'}, {'date':'2026-03-09','open':'09:30','close':'16:00'}])
         self.assertEqual((rows[1][1]-rows[0][1])/3600000,71)
