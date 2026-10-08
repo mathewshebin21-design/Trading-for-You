@@ -5,8 +5,8 @@ import os
 from pathlib import Path
 import tempfile
 import unittest
-from unittest.mock import patch
-from us_paper import ET, account, fill, get_data, poll_us, quote, sessions, signal, market_session
+from unittest.mock import patch, AsyncMock
+from us_paper import ET, account, fill, get_data, poll_us, quote, sessions, signal, market_session, preserve_decision, fresh_quote, QuoteUnavailable
 
 class USTests(unittest.TestCase):
     def setUp(self):
@@ -17,6 +17,53 @@ class USTests(unittest.TestCase):
         self.s=account('SPY');self.s['signal']={'observed_ms':self.time,'target_long':True}
     def test_allowlist(self):
         with self.assertRaises(ValueError):get_data('/v2/orders',{})
+    def test_same_signal_preserves_decision_but_revision_does_not(self):
+        first={'bar_close_ms':1,'fast':110.,'slow':100.,'target_long':True,'observed_ms':self.time-10000}
+        current={**first,'observed_ms':self.time}
+        decision=preserve_decision(first,current)
+        self.assertEqual(decision['observed_ms'],first['observed_ms'])
+        raw={**self.raw,'t':datetime.fromtimestamp((self.time-1000)/1000,ET).isoformat()}
+        self.assertEqual(quote(raw,self.time,decision['observed_ms'])['event_ms'],self.time-1000)
+        for change in ({'bar_close_ms':2},{'fast':111.},{'target_long':False}):
+            revised=preserve_decision(first,{**first,**change,'observed_ms':self.time})
+            self.assertEqual(revised['observed_ms'],self.time)
+            with self.assertRaises(QuoteUnavailable):quote(raw,self.time,revised['observed_ms'])
+    def test_quote_retry_accepts_only_new_fresh_event(self):
+        old={**self.raw,'t':datetime.fromtimestamp((self.time-1000)/1000,ET).isoformat()}
+        with patch('us_paper.get_data',side_effect=[{'quote':old},{'quote':self.raw}]),patch('us_paper.now_ms',return_value=self.time),patch('us_paper.asyncio.sleep',new_callable=AsyncMock):
+            q,observed=asyncio.run(fresh_quote('SPY',self.time))
+        self.assertEqual(q['event_ms'],self.time)
+    def test_stale_quotes_still_rejected_after_bounded_retries(self):
+        old={**self.raw,'t':datetime.fromtimestamp((self.time-6000)/1000,ET).isoformat()}
+        with patch('us_paper.get_data',return_value={'quote':old}) as fetch,patch('us_paper.now_ms',return_value=self.time),patch('us_paper.asyncio.sleep',new_callable=AsyncMock):
+            with self.assertRaisesRegex(QuoteUnavailable,'QUOTE_STALE'):asyncio.run(fresh_quote('SPY',self.time-10000))
+        self.assertEqual(fetch.call_count,3)
+    def test_poll_diagnostics_do_not_expose_provider_secret(self):
+        def data(path,params):
+            if path=='/v2/calendar':return self.calendar
+            raise RuntimeError('secret_private_token')
+        with tempfile.TemporaryDirectory() as folder,patch.dict(os.environ,{'US_PAPER_ENABLED':'1'}),patch('us_paper.get_data',side_effect=data),patch('us_paper.now_ms',return_value=self.time):
+            result=asyncio.run(poll_us(folder))
+        self.assertEqual(result[1]['reason'],'HISTORY_FETCH')
+        self.assertNotIn('secret_private_token',json.dumps(result))
+    def test_repeated_poll_uses_persisted_decision_without_duplicate_fill(self):
+        sig={'bar_close_ms':1,'fast':110.,'slow':100.,'target_long':True,'observed_ms':self.time-10000}
+        raw={**self.raw,'t':datetime.fromtimestamp((self.time-1000)/1000,ET).isoformat()}
+        def data(path,params):
+            if path=='/v2/calendar':return self.calendar
+            if path.endswith('/bars'):return {'bars':[]}
+            return {'quote':raw}
+        with tempfile.TemporaryDirectory() as folder:
+            for symbol in ('SPY','AAPL','GLD'):
+                state=account(symbol);state['signal']=dict(sig)
+                (Path(folder)/(symbol+'_state.json')).write_text(json.dumps(state))
+            with patch.dict(os.environ,{'US_PAPER_ENABLED':'1'}),patch('us_paper.get_data',side_effect=data),patch('us_paper.now_ms',return_value=self.time),patch('us_paper.signal',side_effect=lambda *args:{**sig,'observed_ms':self.time}):
+                first=asyncio.run(poll_us(folder));second=asyncio.run(poll_us(folder))
+            self.assertEqual(first[1]['status'],'SIMULATED_BUY')
+            self.assertEqual(second[1]['status'],'NO_ACTION')
+            restored=json.loads((Path(folder)/'SPY_state.json').read_text())
+            self.assertEqual(restored['signal']['observed_ms'],sig['observed_ms'])
+            self.assertEqual(len(restored['ledger']),1)
     def test_bad_quotes(self):
         for change in ({'bp':float('nan')},{'ap':99},{'ap':102},{'bs':0},{'t':'2026-10-08T08:00:00-04:00'}):
             with self.assertRaises(ValueError):quote({**self.raw,**change},self.time,self.time)

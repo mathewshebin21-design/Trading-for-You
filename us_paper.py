@@ -17,6 +17,20 @@ SYMBOLS = ('SPY', 'AAPL', 'GLD')
 ET = ZoneInfo('America/New_York')
 
 
+class QuoteUnavailable(ValueError):
+    """A fixed public reason code; never provider text or credentials."""
+    pass
+
+
+def preserve_decision(previous, current):
+    # A repeated observation is not a new decision. Revisions to either the
+    # completed bar or indicator values do create a new decision timestamp.
+    fields = ('bar_close_ms', 'fast', 'slow', 'target_long')
+    if previous and all(previous.get(k) == current[k] for k in fields):
+        current['observed_ms'] = previous['observed_ms']
+    return current
+
+
 def stamp(value):
     dt = datetime.fromisoformat(value.replace('Z', '+00:00'))
     if dt.tzinfo is None:
@@ -97,14 +111,31 @@ def quote(record, observed, decision):
     bsize, asize = float(record['bs']), float(record['as'])
     if not all(math.isfinite(v) and v > 0 for v in (bid, ask, bsize, asize)) or ask < bid:
         raise ValueError('Invalid or crossed quote')
-    if observed-event > 5000 or event-observed > 2000 or event < decision:
-        raise ValueError('Stale quote or clock mismatch')
+    if observed-event > 5000:
+        raise QuoteUnavailable('QUOTE_STALE')
+    if event-observed > 2000:
+        raise QuoteUnavailable('QUOTE_FUTURE')
+    if event < decision:
+        raise QuoteUnavailable('QUOTE_BEFORE_DECISION')
     if (ask-bid)/bid > .005:
         raise ValueError('Excessive spread')
     # IEX quote sizes are round lots; simulator deliberately caps fill to ONE
     # share per reported lot to understate, rather than overstate, liquidity.
     return {'event_ms': event, 'received_ms': observed, 'bid': bid, 'ask': ask,
             'bid_qty': math.floor(bsize), 'ask_qty': math.floor(asize), 'feed': 'iex'}
+
+
+async def fresh_quote(symbol, decision):
+    # Only retry timing failures. Never relax freshness or substitute a feed.
+    for attempt in range(3):
+        raw = await asyncio.to_thread(get_data, f'/v2/stocks/{symbol}/quotes/latest', {'feed':'iex'})
+        observed = now_ms()
+        try:
+            return quote(raw['quote'], observed, decision), observed
+        except QuoteUnavailable as error:
+            if str(error) == 'QUOTE_FUTURE' or attempt == 2:
+                raise
+            await asyncio.sleep(1)
 
 
 def account(symbol):
@@ -173,30 +204,39 @@ async def poll_us(folder, allow_entry=True):
         return [{'symbol':'US','status':'NO_FILL_DATA_ERROR','error':'US calendar/credentials unavailable'}]
     for symbol in SYMBOLS:
         path = folder/(symbol+'_state.json')
+        stage = 'ACCOUNT_STATE'
         try:
             state = json.loads(path.read_text()) if path.exists() else account(symbol)
             if state['symbol'] != symbol or state['version'] != 'US.1' or state['currency'] != 'USD':
                 raise ValueError('Account mismatch')
+            stage = 'HISTORY_FETCH'
             data = await asyncio.to_thread(get_data, f'/v2/stocks/{symbol}/bars',
                 {'timeframe':'1Day','start':start,'end':today.isoformat(), 'limit':1000,
                  'adjustment':'all','feed':'iex','sort':'asc'})
+            stage = 'HISTORY_VALIDATION'
             if data.get('next_page_token'):
                 raise ValueError('Incomplete paginated history')
-            state['signal'] = signal(data['bars'], calendar, now_ms())
+            state['signal'] = preserve_decision(state['signal'], signal(data['bars'], calendar, now_ms()))
+            stage = 'STATE_WRITE'
             save_state(path, state)
             if not any(a <= now_ms() < b for _,a,b in sessions(calendar)):
                 outcome = 'MARKET_CLOSED'
             else:
-                raw = await asyncio.to_thread(get_data, f'/v2/stocks/{symbol}/quotes/latest', {'feed':'iex'})
-                observed = now_ms()
-                q = quote(raw['quote'], observed, state['signal']['observed_ms'])
+                stage = 'QUOTE_FETCH_OR_VALIDATION'
+                q, observed = await fresh_quote(symbol, state['signal']['observed_ms'])
+                stage = 'FILL_VALIDATION'
                 outcome = fill(state, q, calendar, observed, allow_entry)
+                stage = 'STATE_WRITE'
                 save_state(path, state)
             results.append({'symbol':symbol,'currency':'USD','status':outcome,'trend':'UP' if state['signal']['target_long'] else 'NOT UP',
                 'simulated_fill_count':len(state['ledger']),'paused':state['paused']})
+        except QuoteUnavailable as error:
+            results.append({'symbol':symbol,'status':'NO_FILL_QUOTE_UNAVAILABLE',
+                            'reason':str(error),'feed':'iex'})
         except Exception:
             # Never include provider exceptions, request headers or credentials.
-            results.append({'symbol':symbol,'status':'NO_FILL_DATA_ERROR','error':'US data/state validation failed'})
+            results.append({'symbol':symbol,'status':'NO_FILL_DATA_ERROR',
+                            'reason':stage,'error':'US '+stage.lower().replace('_',' ')+' failed'})
     save_state(folder/'latest_poll.json', results)
     return results
 
@@ -215,5 +255,5 @@ def report_us(folder):
             lines.append(f"Quote age {(now_ms()-s['quote']['received_ms'])/1000:.0f}s; indicative, not executable.")
     latest = Path(folder)/'latest_poll.json'
     if latest.exists():
-        lines.extend(r['symbol']+': '+r['status'] for r in json.loads(latest.read_text()))
+        lines.extend(r['symbol']+': '+r['status']+(' ('+r['reason']+')' if r.get('reason') else '') for r in json.loads(latest.read_text()))
     return lines
