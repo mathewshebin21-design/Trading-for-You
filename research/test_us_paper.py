@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import tempfile
 import unittest
+import urllib.error
 from unittest.mock import patch, AsyncMock
 from us_paper import ET, account, fill, get_data, poll_us, quote, sessions, signal, market_session, preserve_decision, fresh_quote, QuoteUnavailable
 
@@ -17,6 +18,34 @@ class USTests(unittest.TestCase):
         self.s=account('SPY');self.s['signal']={'observed_ms':self.time,'target_long':True}
     def test_allowlist(self):
         with self.assertRaises(ValueError):get_data('/v2/orders',{})
+    def test_quote_unavailable_classifications(self):
+        for change,reason in (({'bs':0},'QUOTE_NO_LIQUIDITY'),
+                              ({'ap':99},'QUOTE_CROSSED'),
+                              ({'ap':102},'QUOTE_SPREAD_TOO_WIDE'),
+                              ({'bp':float('nan')},'QUOTE_NONFINITE'),
+                              ({'t':'bad'},'QUOTE_MALFORMED')):
+            with self.assertRaisesRegex(QuoteUnavailable,reason):
+                quote({**self.raw,**change},self.time,self.time)
+    def test_network_failure_recovers_without_duplicate_fill(self):
+        with patch('us_paper.get_data',side_effect=[urllib.error.URLError('private provider text'),{'quote':self.raw}]) as fetch,patch('us_paper.now_ms',return_value=self.time),patch('us_paper.asyncio.sleep',new_callable=AsyncMock):
+            q,observed=asyncio.run(fresh_quote('SPY',self.time))
+            self.assertEqual(fetch.call_count,2)
+            self.assertEqual(fill(self.s,q,self.calendar,observed),'SIMULATED_BUY')
+            self.assertEqual(fill(self.s,q,self.calendar,observed),'NO_ACTION')
+            self.assertEqual(len(self.s['ledger']),1)
+    def test_http_errors_redacted_and_retry_policy(self):
+        for status,reason,count in ((401,'QUOTE_AUTH_FAILED',1),(403,'QUOTE_FEED_FORBIDDEN',1),(429,'QUOTE_RATE_LIMITED',1),(503,'QUOTE_PROVIDER_UNAVAILABLE',3)):
+            error=urllib.error.HTTPError('https://private.invalid',status,'SECRET_PROVIDER_TEXT',{},None)
+            with patch('us_paper.get_data',side_effect=error) as fetch,patch('us_paper.asyncio.sleep',new_callable=AsyncMock):
+                with self.assertRaises(QuoteUnavailable) as caught:
+                    asyncio.run(fresh_quote('SPY',self.time))
+                self.assertEqual(str(caught.exception),reason)
+                self.assertEqual(fetch.call_count,count)
+    def test_missing_quote_rejected_without_retry(self):
+        with patch('us_paper.get_data',return_value={'quote':None}) as fetch:
+            with self.assertRaisesRegex(QuoteUnavailable,'QUOTE_MISSING'):
+                asyncio.run(fresh_quote('SPY',self.time))
+            self.assertEqual(fetch.call_count,1)
     def test_same_signal_preserves_decision_but_revision_does_not(self):
         first={'bar_close_ms':1,'fast':110.,'slow':100.,'target_long':True,'observed_ms':self.time-10000}
         current={**first,'observed_ms':self.time}

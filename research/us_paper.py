@@ -10,6 +10,7 @@ from pathlib import Path
 import statistics
 import urllib.parse
 import urllib.request
+import urllib.error
 from zoneinfo import ZoneInfo
 from prospective_paper import now_ms, save_state
 
@@ -106,11 +107,18 @@ def signal(bars, calendar, observed):
 
 
 def quote(record, observed, decision):
-    event = stamp(record['t'])
-    bid, ask = float(record['bp']), float(record['ap'])
-    bsize, asize = float(record['bs']), float(record['as'])
-    if not all(math.isfinite(v) and v > 0 for v in (bid, ask, bsize, asize)) or ask < bid:
-        raise ValueError('Invalid or crossed quote')
+    try:
+        event = stamp(record['t'])
+        bid, ask = float(record['bp']), float(record['ap'])
+        bsize, asize = float(record['bs']), float(record['as'])
+    except (KeyError, TypeError, ValueError, OverflowError, AttributeError):
+        raise QuoteUnavailable('QUOTE_MALFORMED') from None
+    if not all(math.isfinite(v) for v in (bid, ask, bsize, asize)):
+        raise QuoteUnavailable('QUOTE_NONFINITE')
+    if min(bid, ask, bsize, asize) <= 0:
+        raise QuoteUnavailable('QUOTE_NO_LIQUIDITY')
+    if ask < bid:
+        raise QuoteUnavailable('QUOTE_CROSSED')
     if observed-event > 5000:
         raise QuoteUnavailable('QUOTE_STALE')
     if event-observed > 2000:
@@ -118,7 +126,7 @@ def quote(record, observed, decision):
     if event < decision:
         raise QuoteUnavailable('QUOTE_BEFORE_DECISION')
     if (ask-bid)/bid > .005:
-        raise ValueError('Excessive spread')
+        raise QuoteUnavailable('QUOTE_SPREAD_TOO_WIDE')
     # IEX quote sizes are round lots; simulator deliberately caps fill to ONE
     # share per reported lot to understate, rather than overstate, liquidity.
     return {'event_ms': event, 'received_ms': observed, 'bid': bid, 'ask': ask,
@@ -126,14 +134,32 @@ def quote(record, observed, decision):
 
 
 async def fresh_quote(symbol, decision):
-    # Only retry timing failures. Never relax freshness or substitute a feed.
+    # Bounded retries for transient transport/timing failures only. Never
+    # relax validation, expose provider text, or substitute a paid feed.
     for attempt in range(3):
-        raw = await asyncio.to_thread(get_data, f'/v2/stocks/{symbol}/quotes/latest', {'feed':'iex'})
-        observed = now_ms()
         try:
+            try:
+                raw = await asyncio.to_thread(get_data, f'/v2/stocks/{symbol}/quotes/latest', {'feed':'iex'})
+            except urllib.error.HTTPError as error:
+                code = error.code
+                reason = ('QUOTE_AUTH_FAILED' if code == 401 else
+                          'QUOTE_FEED_FORBIDDEN' if code == 403 else
+                          'QUOTE_RATE_LIMITED' if code == 429 else
+                          'QUOTE_PROVIDER_UNAVAILABLE' if 500 <= code < 600 else
+                          'QUOTE_HTTP_ERROR')
+                raise QuoteUnavailable(reason) from None
+            except (urllib.error.URLError, TimeoutError, ConnectionError, OSError):
+                raise QuoteUnavailable('QUOTE_NETWORK_ERROR') from None
+            except (ValueError, TypeError):
+                raise QuoteUnavailable('QUOTE_RESPONSE_INVALID') from None
+            observed = now_ms()
+            if not isinstance(raw, dict) or not isinstance(raw.get('quote'), dict):
+                raise QuoteUnavailable('QUOTE_MISSING')
             return quote(raw['quote'], observed, decision), observed
         except QuoteUnavailable as error:
-            if str(error) == 'QUOTE_FUTURE' or attempt == 2:
+            retryable = {'QUOTE_STALE', 'QUOTE_BEFORE_DECISION',
+                         'QUOTE_NETWORK_ERROR', 'QUOTE_PROVIDER_UNAVAILABLE'}
+            if str(error) not in retryable or attempt == 2:
                 raise
             await asyncio.sleep(1)
 
