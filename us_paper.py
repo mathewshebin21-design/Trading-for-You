@@ -13,6 +13,8 @@ import urllib.request
 import urllib.error
 from zoneinfo import ZoneInfo
 from prospective_paper import now_ms, save_state
+from us_accounting import reconcile, receivable_value, ReviewRequired, audit_balances
+from prospective_lab import observe as observe_lab
 
 SYMBOLS = ('SPY', 'AAPL', 'GLD')
 ET = ZoneInfo('America/New_York')
@@ -103,7 +105,7 @@ def signal(bars, calendar, observed):
     closes = [indexed[r[0]] for r in completed]
     fast, slow = statistics.mean(closes[-20:]), statistics.mean(closes)
     return {'bar_close_ms': completed[-1][2], 'observed_ms': observed,
-            'fast': fast, 'slow': slow, 'target_long': fast > slow}
+            'fast': fast, 'slow': slow, 'target_long': fast > slow, 'closes':closes}
 
 
 def quote(record, observed, decision):
@@ -183,11 +185,11 @@ def fill(state, q, calendar, observed, allow_entry=True):
     day, opening, closing = active[0]
     if not opening <= q['event_ms'] < closing or q['event_ms'] < state['signal']['observed_ms']:
         raise ValueError('Quote outside session or before decision')
-    if state['units'] and state['last_session'] != day:
+    if state['units'] and state.get('accounted_through',state['last_session']) != day:
         state['review_required'] = True
     if state['review_required']:
         return 'CORPORATE_ACTION_REVIEW_REQUIRED'
-    equity = state['cash'] + state['units']*q['bid']
+    equity = state['cash'] + state['units']*q['bid'] + receivable_value(state)
     state['peak'] = max(state['peak'], equity)
     if equity/state['peak'] <= .9:
         state['paused'] = True
@@ -199,7 +201,7 @@ def fill(state, q, calendar, observed, allow_entry=True):
     if side is None:
         return 'NO_ACTION'
     price = q['ask']*1.0005 if side == 'BUY' else q['bid']*.9995
-    qty = min(math.floor(equity*.25/(price*1.001)), q['ask_qty']) if side == 'BUY' else min(state['units'], q['bid_qty'])
+    qty = min(math.floor(min(state['cash'],equity*.25)/(price*1.001)), q['ask_qty']) if side == 'BUY' else min(state['units'], q['bid_qty'])
     if qty < 1:
         return 'REJECTED_SIZE'
     fee = qty*price*.001
@@ -219,6 +221,7 @@ async def poll_us(folder, allow_entry=True):
         return []
     folder = Path(folder)
     results = []
+    lab_errors = []
     try:
         observed = now_ms()
         today = datetime.fromtimestamp(observed/1000, ET).date()
@@ -235,6 +238,7 @@ async def poll_us(folder, allow_entry=True):
             state = json.loads(path.read_text()) if path.exists() else account(symbol)
             if state['symbol'] != symbol or state['version'] != 'US.1' or state['currency'] != 'USD':
                 raise ValueError('Account mismatch')
+            audit_balances(state)
             stage = 'HISTORY_FETCH'
             data = await asyncio.to_thread(get_data, f'/v2/stocks/{symbol}/bars',
                 {'timeframe':'1Day','start':start,'end':today.isoformat(), 'limit':1000,
@@ -248,14 +252,34 @@ async def poll_us(folder, allow_entry=True):
             if not any(a <= now_ms() < b for _,a,b in sessions(calendar)):
                 outcome = 'MARKET_CLOSED'
             else:
+                review_path = folder/'action_reviews'/(symbol+'.json')
+                if review_path.exists():
+                    stage = 'CORPORATE_ACTION_RECONCILIATION'
+                    state = reconcile(state,json.loads(review_path.read_text()),today.isoformat(),now_ms())
                 stage = 'QUOTE_FETCH_OR_VALIDATION'
                 q, observed = await fresh_quote(symbol, state['signal']['observed_ms'])
                 stage = 'FILL_VALIDATION'
                 outcome = fill(state, q, calendar, observed, allow_entry)
                 stage = 'STATE_WRITE'
                 save_state(path, state)
+                # Independent shadow accounts consume the SAME validated quote.
+                # A lab failure cannot prevent original-account risk handling.
+                try:
+                    if outcome != 'MARKET_CLOSED':
+                        observe_lab(folder/'lab',symbol,state['signal'],q,observed,
+                                    today.isoformat(),allow_entry,review_path)
+                except Exception:
+                    lab_errors.append({'symbol':symbol+'_LAB','status':'NO_FILL_LAB_ERROR',
+                                    'error':'Shadow lab failed closed; check /lab'})
             results.append({'symbol':symbol,'currency':'USD','status':outcome,'trend':'UP' if state['signal']['target_long'] else 'NOT UP',
                 'simulated_fill_count':len(state['ledger']),'paused':state['paused']})
+        except ReviewRequired as error:
+            if 'state' in locals() and state.get('symbol')==symbol:
+                state['review_required']=True
+                try:save_state(path,state)
+                except Exception:pass
+            results.append({'symbol':symbol,'status':'CORPORATE_ACTION_REVIEW_REQUIRED',
+                            'reason':str(error)})
         except QuoteUnavailable as error:
             results.append({'symbol':symbol,'status':'NO_FILL_QUOTE_UNAVAILABLE',
                             'reason':str(error),'feed':'iex'})
@@ -264,6 +288,7 @@ async def poll_us(folder, allow_entry=True):
             results.append({'symbol':symbol,'status':'NO_FILL_DATA_ERROR',
                             'reason':stage,'error':'US '+stage.lower().replace('_',' ')+' failed'})
     track_quality(folder, results, now_ms())
+    results.extend(lab_errors)
     save_state(folder/'latest_poll.json', results)
     return results
 
@@ -311,6 +336,8 @@ def report_us(folder):
             age = (now_ms()-q['event_ms'])/1000
             spread = 100*(q['ask']-q['bid'])/q['bid']
             lines.append(f"Saved quote event age {age:.0f}s{' STALE' if age > 5 else ''}; spread {spread:.3f}%; indicative only.")
+            equity=s['cash']+s['units']*q['bid']+receivable_value(s)
+            lines.append(f"Indicative equity ${equity:.2f}; net P/L ${equity-10000:.2f}; commissions ${sum(t['commission'] for t in s['ledger']):.2f}; dividend receivable ${receivable_value(s):.2f}")
     quality_path = Path(folder)/'quote_quality.json'
     if quality_path.exists():
         quality = json.loads(quality_path.read_text())

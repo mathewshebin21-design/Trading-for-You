@@ -13,8 +13,10 @@ from prospective_paper import (SYMBOLS,new_session,public_get,symbol_filters,
     fresh_quote,execute_paper,save_state,poll_session,now_ms)
 
 from us_paper import poll_us, report_us
+from prospective_lab import report as report_lab
+from paper_backup import snapshot
 
-HELP=('PAPER ONLY — strategy unvalidated.\n/status /positions /trends /trades /report\n'
+HELP=('PAPER ONLY — strategy unvalidated.\n/status /positions /trends /trades /report /lab\n'
       '/pause stops new automatic entries; exits/risk checks continue.\n'
       '/resume enables entries; never resets a risk pause.\n'
       '/paper_trade BUY BTCUSDT (or ETHUSDT)\n'
@@ -73,6 +75,8 @@ class Controller:
             if p.exists():found.append(json.loads(p.read_text()))
         return found
     def report(self,command):
+        if command=='/lab':
+            return '\n'.join(report_lab(self.folder/'us_automatic'/'lab',self.clock()))
         lines=['PAPER ONLY — USDT; unvalidated strategy.',
                'Automatic entries: '+('paused' if self.get('paused')=='1' else 'enabled')]
         for mode in ('automatic','manual'):
@@ -99,6 +103,8 @@ class Controller:
         lines.extend(report_us(self.folder/'us_automatic'))
         beat=self.folder/'heartbeat.json'
         if beat.exists():lines.append('Collector: '+json.loads(beat.read_text())['updated_utc'])
+        backup=self.folder/'backup_health.json'
+        if backup.exists():lines.append('Recovery snapshot: '+json.loads(backup.read_text())['status']+' (same volume)')
         return '\n'.join(lines)[:4000]
     async def handle(self,update):
         uid=update.get('update_id');m=update.get('message',{})
@@ -116,6 +122,13 @@ class Controller:
         try:
             if cmd in ('/start','/help'):
                 self.set('notifications','1');self.queue(HELP)
+            elif cmd=='/lab':
+                chunk=''
+                for line in self.report(cmd).splitlines():
+                    if len(chunk)+len(line)+1>3900:
+                        self.queue(chunk);chunk=''
+                    chunk+=line+'\n'
+                if chunk:self.queue(chunk.rstrip())
             elif cmd in ('/status','/positions','/trends','/trades','/report'):self.queue(self.report(cmd))
             elif cmd=='/pause':self.set('paused','1');self.queue('New automatic entries paused. Existing exits/risk checks continue; holdings were not liquidated.')
             elif cmd=='/resume':self.set('paused','0');self.queue('Automatic entries enabled. Permanent account drawdown pauses remain in force.')
@@ -175,6 +188,14 @@ class Controller:
                 self.db.execute('INSERT INTO settings VALUES(?,?)',(key,str(r['observed_ms'])))
 
     async def collect(self):
+        backup_day=datetime.fromtimestamp(self.clock()/1000,timezone.utc).date().isoformat()
+        try:
+            created=snapshot(self.folder,self.db,backup_day)
+            if created:
+                save_state(self.folder/'backup_health.json',{'status':'LOCAL_SNAPSHOT_OK','observed_ms':self.clock(),
+                    'scope':'same volume; not disaster recovery'})
+        except Exception:
+            save_state(self.folder/'backup_health.json',{'status':'BACKUP_FAILED','observed_ms':self.clock()})
         results=await poll_session(self.folder/'automatic',allow_entry=self.get('paused')!='1')
         results.extend(await poll_us(self.folder/'us_automatic',allow_entry=self.get('paused')!='1'))
         self.notify_market_open(results)
