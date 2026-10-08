@@ -8,6 +8,7 @@ import unittest
 import urllib.error
 from unittest.mock import patch, AsyncMock
 from us_paper import ET, account, fill, get_data, poll_us, quote, sessions, signal, market_session, preserve_decision, fresh_quote, QuoteUnavailable
+from us_paper import track_quality
 
 class USTests(unittest.TestCase):
     def setUp(self):
@@ -18,6 +19,24 @@ class USTests(unittest.TestCase):
         self.s=account('SPY');self.s['signal']={'observed_ms':self.time,'target_long':True}
     def test_allowlist(self):
         with self.assertRaises(ValueError):get_data('/v2/orders',{})
+    def test_quality_counters_survive_restart_and_exclude_closed(self):
+        with tempfile.TemporaryDirectory() as folder:
+            rows=[{'symbol':'SPY','status':'NO_ACTION'},
+                  {'symbol':'AAPL','status':'NO_FILL_QUOTE_UNAVAILABLE','reason':'QUOTE_SPREAD_TOO_WIDE'},
+                  {'symbol':'GLD','status':'MARKET_CLOSED'}]
+            track_quality(folder,rows,self.time)
+            track_quality(folder,rows,self.time)
+            counts=json.loads((Path(folder)/'quote_quality.json').read_text())['2026-10-08']
+            self.assertEqual(counts['SPY']['VALID_QUOTE_CYCLE'],2)
+            self.assertEqual(counts['AAPL']['QUOTE_SPREAD_TOO_WIDE'],2)
+            self.assertNotIn('GLD',counts)
+    def test_quality_retention_bounded_and_data_errors_separate(self):
+        with tempfile.TemporaryDirectory() as folder:
+            for i in range(35):
+                track_quality(folder,[{'symbol':'AAPL','status':'NO_FILL_DATA_ERROR'}],self.time+i*86400000)
+            counts=json.loads((Path(folder)/'quote_quality.json').read_text())
+            self.assertEqual(len(counts),30)
+            self.assertTrue(all(day['AAPL']=={'DATA_ERROR':1} for day in counts.values()))
     def test_quote_unavailable_classifications(self):
         for change,reason in (({'bs':0},'QUOTE_NO_LIQUIDITY'),
                               ({'ap':99},'QUOTE_CROSSED'),

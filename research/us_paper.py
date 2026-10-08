@@ -263,8 +263,37 @@ async def poll_us(folder, allow_entry=True):
             # Never include provider exceptions, request headers or credentials.
             results.append({'symbol':symbol,'status':'NO_FILL_DATA_ERROR',
                             'reason':stage,'error':'US '+stage.lower().replace('_',' ')+' failed'})
+    track_quality(folder, results, now_ms())
     save_state(folder/'latest_poll.json', results)
     return results
+
+
+def track_quality(folder, results, observed):
+    """Bounded daily counters; no quote prices, provider text or credentials.
+
+    Counts completed collector cycles, not every HTTP retry. History failures
+    remain a separate category and cannot masquerade as validated quotes.
+    """
+    path = Path(folder)/'quote_quality.json'
+    data = json.loads(path.read_text()) if path.exists() else {}
+    day = datetime.fromtimestamp(observed/1000, ET).date().isoformat()
+    today = data.setdefault(day, {})
+    for result in results:
+        symbol = result['symbol']
+        if symbol not in SYMBOLS or result['status'] == 'MARKET_CLOSED':
+            continue
+        status = result['status']
+        if status == 'NO_FILL_QUOTE_UNAVAILABLE':
+            category = result['reason']
+        elif status == 'NO_FILL_DATA_ERROR':
+            category = 'DATA_ERROR'
+        else:
+            category = 'VALID_QUOTE_CYCLE'
+        counts = today.setdefault(symbol, {})
+        counts[category] = counts.get(category, 0) + 1
+    # Thirty sessions fit in a small file; no unbounded observation archive.
+    data = {key:data[key] for key in sorted(data)[-30:]}
+    save_state(path, data)
 
 
 def report_us(folder):
@@ -278,7 +307,19 @@ def report_us(folder):
         s = json.loads(p.read_text()); sig = s['signal']
         lines.append(f"{symbol}: {'UP' if sig and sig['target_long'] else 'NOT UP'}; cash ${s['cash']:.2f}; shares {s['units']}; fills {len(s['ledger'])}; corporate-action review {s['review_required']}; signal observed {sig['observed_ms'] if sig else 'none'}")
         if s['quote']:
-            lines.append(f"Quote age {(now_ms()-s['quote']['received_ms'])/1000:.0f}s; indicative, not executable.")
+            q = s['quote']
+            age = (now_ms()-q['event_ms'])/1000
+            spread = 100*(q['ask']-q['bid'])/q['bid']
+            lines.append(f"Saved quote event age {age:.0f}s{' STALE' if age > 5 else ''}; spread {spread:.3f}%; indicative only.")
+    quality_path = Path(folder)/'quote_quality.json'
+    if quality_path.exists():
+        quality = json.loads(quality_path.read_text())
+        today = datetime.fromtimestamp(now_ms()/1000, ET).date().isoformat()
+        for symbol, counts in quality.get(today, {}).items():
+            total = sum(counts.values())
+            valid = counts.get('VALID_QUOTE_CYCLE', 0)
+            failures = ', '.join(f'{k}={v}' for k,v in sorted(counts.items()) if k != 'VALID_QUOTE_CYCLE')
+            lines.append(f"{symbol} today: {valid}/{total} valid quote cycles" + ('; '+failures if failures else ''))
     latest = Path(folder)/'latest_poll.json'
     if latest.exists():
         lines.extend(r['symbol']+': '+r['status']+(' ('+r['reason']+')' if r.get('reason') else '') for r in json.loads(latest.read_text()))
