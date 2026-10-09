@@ -174,7 +174,8 @@ def account(symbol):
             'signal': None, 'last_session': None, 'quote': None, 'review_required': False}
 
 
-def fill(state, q, calendar, observed, allow_entry=True):
+def fill(state, q, calendar, observed, allow_entry=True, cost_multiplier=1):
+    if cost_multiplier not in (1,2):raise ValueError('Invalid cost stress')
     if state['version'] != 'US.1' or state['currency'] != 'USD' or state['symbol'] not in SYMBOLS:
         raise ValueError('Invalid account identity')
     if observed-q['event_ms'] > 5000 or q['event_ms']-observed > 2000:
@@ -200,11 +201,13 @@ def fill(state, q, calendar, observed, allow_entry=True):
         return 'ENTRY_PAUSED'
     if side is None:
         return 'NO_ACTION'
-    price = q['ask']*1.0005 if side == 'BUY' else q['bid']*.9995
-    qty = min(math.floor(min(state['cash'],equity*.25)/(price*1.001)), q['ask_qty']) if side == 'BUY' else min(state['units'], q['bid_qty'])
+    mid=(q['bid']+q['ask'])/2
+    price = (mid+(q['ask']-mid)*cost_multiplier)*(1+.0005*cost_multiplier) if side == 'BUY' else (mid-(mid-q['bid'])*cost_multiplier)*(1-.0005*cost_multiplier)
+    fee_rate=.001*cost_multiplier
+    qty = min(math.floor(min(state['cash'],equity*.25)/(price*(1+fee_rate))), q['ask_qty']) if side == 'BUY' else min(state['units'], q['bid_qty'])
     if qty < 1:
         return 'REJECTED_SIZE'
-    fee = qty*price*.001
+    fee = qty*price*fee_rate
     cash_change = -(qty*price+fee) if side == 'BUY' else qty*price-fee
     if state['cash']+cash_change < 0:
         raise ValueError('Insufficient virtual cash')
@@ -271,6 +274,14 @@ async def poll_us(folder, allow_entry=True):
                 except Exception:
                     lab_errors.append({'symbol':symbol+'_LAB','status':'NO_FILL_LAB_ERROR',
                                     'error':'Shadow lab failed closed; check /lab'})
+                if symbol=='AAPL':
+                    try:
+                        from news_paper_lab import observe
+                        observe(folder/'news_lab',folder.parent/'research_news',state['signal'],q,
+                                calendar,observed,allow_entry,review_path)
+                    except Exception:
+                        lab_errors.append({'symbol':'AAPL_NEWS_LAB','status':'NO_FILL_LAB_ERROR',
+                                           'error':'News paper lab failed closed; check /news_lab'})
             results.append({'symbol':symbol,'currency':'USD','status':outcome,'trend':'UP' if state['signal']['target_long'] else 'NOT UP',
                 'simulated_fill_count':len(state['ledger']),'paused':state['paused']})
         except ReviewRequired as error:

@@ -1,5 +1,9 @@
 # Prospective news experiment proposal — 9 October 2026
 
+Implementation update: see NEWS_LAB_DEPLOYMENT.md for the frozen explicitly
+delayed-feed experiment, bounded pagination and integrated /news_lab accounts.
+The original single-page probe limitations below describe the earlier version.
+
 Status: collector code tested on fixtures; no authenticated production news
 observation obtained in this workspace. No news-driven trades enabled.
 

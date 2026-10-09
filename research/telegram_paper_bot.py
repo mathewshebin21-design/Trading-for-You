@@ -15,9 +15,10 @@ from prospective_paper import (SYMBOLS,new_session,public_get,symbol_filters,
 from us_paper import poll_us, report_us
 from prospective_lab import report as report_lab
 from news_collector import poll_news, report_news
+from news_paper_lab import report as report_news_lab
 from paper_backup import snapshot
 
-HELP=('PAPER ONLY — strategy unvalidated.\n/status /positions /trends /trades /report /lab /news\n'
+HELP=('PAPER ONLY — strategy unvalidated.\n/status /positions /trends /trades /report /lab /news /news_lab\n'
       '/pause stops new automatic entries; exits/risk checks continue.\n'
       '/resume enables entries; never resets a risk pause.\n'
       '/paper_trade BUY BTCUSDT (or ETHUSDT)\n'
@@ -76,6 +77,8 @@ class Controller:
             if p.exists():found.append(json.loads(p.read_text()))
         return found
     def report(self,command):
+        if command=='/news_lab':
+            return '\n'.join(report_news_lab(self.folder/'us_automatic'/'news_lab',self.clock()))
         if command=='/news':
             return '\n'.join(report_news(self.folder/'research_news',self.clock()))
         if command=='/lab':
@@ -127,7 +130,7 @@ class Controller:
         try:
             if cmd in ('/start','/help'):
                 self.set('notifications','1');self.queue(HELP)
-            elif cmd in ('/lab','/news'):
+            elif cmd in ('/lab','/news','/news_lab'):
                 chunk=''
                 for line in self.report(cmd).splitlines():
                     if len(chunk)+len(line)+1>3900:

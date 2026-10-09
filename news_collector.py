@@ -33,45 +33,66 @@ def convert(article, received):
     return record
 
 
-def collect(db):
-    if os.getenv('RESEARCH_NEWS_ENABLED') != '1':
-        return {'status':'DISABLED', 'execution_enabled':False}
-    key, secret = os.getenv('ALPACA_DATA_KEY'), os.getenv('ALPACA_DATA_SECRET')
-    if not key or not secret:
-        return {'status':'CREDENTIALS_MISSING', 'execution_enabled':False}
-    # Omit end: provider chooses its entitlement-compatible latest time. Never
-    # force a real-time tier or change subscription settings.
-    start = (datetime.now(timezone.utc)-timedelta(hours=24)).isoformat()
-    params = {'symbols':','.join(sorted(SYMBOLS)), 'limit':50, 'sort':'desc',
-              'start':start, 'include_content':'false'}
-    request = urllib.request.Request(ENDPOINT+'?'+urllib.parse.urlencode(params),
-        headers={'APCA-API-KEY-ID':key,'APCA-API-SECRET-KEY':secret}, method='GET')
+def fetch_page(params, key, secret, timeout):
+    request=urllib.request.Request(ENDPOINT+'?'+urllib.parse.urlencode(params),
+        headers={'APCA-API-KEY-ID':key,'APCA-API-SECRET-KEY':secret},method='GET')
     class NoRedirect(urllib.request.HTTPRedirectHandler):
-        def redirect_request(self, *args, **kwargs):
-            raise ValueError('NEWS_REDIRECT_REJECTED')
+        def redirect_request(self,*args,**kwargs):raise ValueError('NEWS_REDIRECT_REJECTED')
+    with urllib.request.build_opener(NoRedirect()).open(request,timeout=timeout) as response:
+        raw=response.read(1000001)
+    if len(raw)>1000000:raise ValueError('NEWS_RESPONSE_TOO_LARGE')
+    data=json.loads(raw)
+    if not isinstance(data.get('news'),list) or len(data['news'])>50:
+        raise ValueError('NEWS_ENVELOPE_INVALID')
+    return data
+
+
+def collect(db):
+    if os.getenv('RESEARCH_NEWS_ENABLED')!='1':
+        return {'status':'DISABLED','execution_enabled':False}
+    key,secret=os.getenv('ALPACA_DATA_KEY'),os.getenv('ALPACA_DATA_SECRET')
+    if not key or not secret:return {'status':'CREDENTIALS_MISSING','execution_enabled':False}
+    db.execute('CREATE TABLE IF NOT EXISTS news_coverage (received_ms INTEGER PRIMARY KEY,start_ms INTEGER,end_ms INTEGER,status TEXT)')
+    now=int(time.time()*1000)
+    # Explicit delayed window: compatible with free access, never claim real-time.
+    end=now-15*60000
+    previous=db.execute("SELECT MAX(end_ms) FROM news_coverage WHERE status='COMPLETE_DELAYED_WINDOW'").fetchone()[0]
+    start=max(0,(previous-60000) if previous else end-86400000)
+    if start>=end:return {'status':'CLOCK_NOT_ADVANCED','execution_enabled':False}
+    iso=lambda t:datetime.fromtimestamp(t/1000,timezone.utc).isoformat()
+    params={'symbols':','.join(sorted(SYMBOLS)),'limit':50,'sort':'asc',
+            'start':iso(start),'end':iso(end),'include_content':'false'}
+    accepted=rejected=new=pages=0;seen=set();coverage='INCOMPLETE';status='RESEARCH_ONLY'
+    deadline=time.monotonic()+20
     try:
-        with urllib.request.build_opener(NoRedirect()).open(request, timeout=15) as response:
-            raw = response.read(1000001)
-        if len(raw)>1000000:raise ValueError('NEWS_RESPONSE_TOO_LARGE')
-        data = json.loads(raw)
-        if not isinstance(data['news'],list) or len(data['news'])>50:
-            raise ValueError('NEWS_ENVELOPE_INVALID')
-    except urllib.error.HTTPError as error:
-        return {'status':'HTTP_'+str(error.code), 'execution_enabled':False}
-    except (OSError, ValueError, KeyError, TypeError):
-        return {'status':'NEWS_FETCH_UNAVAILABLE', 'execution_enabled':False}
-    received = int(time.time()*1000)
-    accepted, rejected = 0, 0
-    for article in data['news']:
-        try:
-            ingest(db, convert(article, received), lambda:received)
-            accepted += 1
-        except (ValueError, KeyError, TypeError, AttributeError):
-            rejected += 1
-    return {'status':'RESEARCH_ONLY', 'accepted_records':accepted,
-            'rejected_records':rejected, 'coverage':'INCOMPLETE' if data.get('next_page_token') or rejected else 'ONE_RESPONSE_NOT_CERTIFIED',
-            'received_ms':received, 'feed_latency':'ENTITLEMENT_AND_PROVIDER_DEPENDENT',
-            'execution_enabled':False}
+        for _ in range(10):
+            remaining=deadline-time.monotonic()
+            if remaining<=0:break
+            data=fetch_page(params,key,secret,min(5,remaining));pages+=1
+            received=int(time.time()*1000)
+            for article in data['news']:
+                try:
+                    row=convert(article,received)
+                    updated=int(datetime.fromisoformat(article['updated_at'].replace('Z','+00:00')).timestamp()*1000)
+                    if not start<=updated<=end:raise ValueError('NEWS_OUTSIDE_REQUEST')
+                    count=db.total_changes
+                    ingest(db,row,lambda:received)
+                    new+=int(db.total_changes>count);accepted+=1
+                except (ValueError,KeyError,TypeError,AttributeError):rejected+=1
+            token=data.get('next_page_token')
+            if not token:
+                coverage='COMPLETE_DELAYED_WINDOW' if not rejected else 'INCOMPLETE'
+                break
+            if not isinstance(token,str) or token in seen or len(token)>4096:raise ValueError('NEWS_PAGE_TOKEN_INVALID')
+            seen.add(token);params['page_token']=token
+    except urllib.error.HTTPError as error:status='HTTP_'+str(error.code)
+    except (OSError,ValueError,KeyError,TypeError):status='NEWS_FETCH_UNAVAILABLE'
+    received=int(time.time()*1000)
+    with db:db.execute('INSERT OR REPLACE INTO news_coverage VALUES (?,?,?,?)',(received,start,end,coverage))
+    return {'status':status,'accepted_records':accepted,'unique_new_records':new,
+            'rejected_records':rejected,'pages':pages,'coverage':coverage,
+            'coverage_start_ms':start,'coverage_end_ms':end,'received_ms':received,
+            'feed_latency':'EXPLICIT_15_MINUTE_DELAY_PLUS_POLLING','execution_enabled':False}
 
 
 def poll_news(folder):
