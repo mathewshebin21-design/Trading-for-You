@@ -1,0 +1,7 @@
+{
+  "policy": {"paper_only": true, "paid_calls_enabled": false, "external_signals_can_place_orders": false},
+  "tools": [
+    {"name": "Vibe-Trading", "repository": "https://github.com/HKUDS/Vibe-Trading", "version": "0.1.16", "commit": "e532650b527ba3fb146ef00d533f6fc5040d5d2d", "license": "MIT", "role": "isolated offline exploratory validation", "integration": "offline launcher only; no agent, MCP or broker integration"},
+    {"name": "Fincept Terminal", "repository": "https://github.com/Fincept-Corporation/FinceptTerminal", "version": "4.5.0", "linux_deb_sha256": "10049bad141b77c25388f9c35836d22deb4431c421716bef46cfcc85e2c1bd1e", "license": "AGPL-3.0", "role": "separate research terminal", "integration": "download verified; desktop launch blocked by missing Qt and graphical desktop"}
+  ]
+}
