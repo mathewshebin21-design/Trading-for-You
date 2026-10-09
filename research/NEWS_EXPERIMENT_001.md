@@ -22,7 +22,18 @@ advantage or use the bot for news scalping.
 state is disabled. With existing authorized data credentials and feed access
 confirmed, `RESEARCH_NEWS_ENABLED=1 python news_collector.py --db /private/path/research.sqlite`
 performs one collection. It neither subscribes to a plan nor places orders.
-This command is not wired into Railway, Telegram or a recurring job yet.
+The same collector is now integrated into the existing Railway worker after
+account/risk processing, once per normal poll cycle. It remains disabled unless
+RESEARCH_NEWS_ENABLED=1. It reuses existing ALPACA_DATA_KEY/ALPACA_DATA_SECRET;
+no credential copies or extra service are needed. Deployment verification is
+required before describing it as running.
+Owner-only /news reports probe health and up to five attributable links; /status
+includes concise health. Health logs contain only fixed status codes and counts.
+The private research SQLite database is bounded to approximately 10 MB. Storage
+failure stops news collection without deleting evidence or affecting accounts.
+This database is not included in the existing same-volume paper snapshots.
+News ingestion failure cannot prevent original paper risk processing. The
+collector is not a complete archive and cannot activate the proposed strategy.
 No credentials were copied from Railway or screenshots.
 
 Store canonical source links, explicit provider dates, locally assigned receipt

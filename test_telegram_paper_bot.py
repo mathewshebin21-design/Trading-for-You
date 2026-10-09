@@ -7,6 +7,19 @@ from telegram_paper_bot import Controller,TelegramAPI
 from prospective_paper import new_session,save_state
 
 class TelegramTests(unittest.IsolatedAsyncioTestCase):
+    async def test_news_failure_does_not_block_original_account_results(self):
+        with patch('telegram_paper_bot.poll_session',new_callable=AsyncMock,return_value=[]),patch('telegram_paper_bot.poll_us',new_callable=AsyncMock,return_value=[self.open_event()]),patch('telegram_paper_bot.poll_news',side_effect=RuntimeError('fixture')):
+            result=await self.c.collect()
+        self.assertEqual(result[0]['status'],'MARKET_OPEN')
+        self.assertIn('session is OPEN',self.messages()[0])
+
+    async def test_news_command_is_owner_only_and_research_only(self):
+        await self.c.handle(self.update('/news',owner=9))
+        self.assertEqual(self.messages(),[])
+        await self.c.handle(self.update('/news',ident=2))
+        self.assertIn('cannot trigger trades',self.messages()[0])
+        self.assertIn('has not run',self.messages()[0])
+
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.folder=Path(self.tmp.name)
         self.now=2_000_000;self.c=Controller(self.folder,123,clock=lambda:self.now)

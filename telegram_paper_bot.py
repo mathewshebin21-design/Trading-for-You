@@ -14,9 +14,10 @@ from prospective_paper import (SYMBOLS,new_session,public_get,symbol_filters,
 
 from us_paper import poll_us, report_us
 from prospective_lab import report as report_lab
+from news_collector import poll_news, report_news
 from paper_backup import snapshot
 
-HELP=('PAPER ONLY — strategy unvalidated.\n/status /positions /trends /trades /report /lab\n'
+HELP=('PAPER ONLY — strategy unvalidated.\n/status /positions /trends /trades /report /lab /news\n'
       '/pause stops new automatic entries; exits/risk checks continue.\n'
       '/resume enables entries; never resets a risk pause.\n'
       '/paper_trade BUY BTCUSDT (or ETHUSDT)\n'
@@ -75,6 +76,8 @@ class Controller:
             if p.exists():found.append(json.loads(p.read_text()))
         return found
     def report(self,command):
+        if command=='/news':
+            return '\n'.join(report_news(self.folder/'research_news',self.clock()))
         if command=='/lab':
             return '\n'.join(report_lab(self.folder/'us_automatic'/'lab',self.clock()))
         lines=['PAPER ONLY — USDT; unvalidated strategy.',
@@ -101,6 +104,8 @@ class Controller:
                         lines.append(f"Indicative bid equity {equity:.2f}; P/L {equity-10000:.2f}; drawdown {100*(equity/s['peak']-1):.2f}%; quote age {age:.0f}s"+(' STALE' if age>60 else ''))
                     lines.append('Cumulative modeled commissions: '+f"{sum(t['commission'] for t in s['ledger']):.4f}")
         lines.extend(report_us(self.folder/'us_automatic'))
+        if command=='/status':
+            lines.extend(report_news(self.folder/'research_news',self.clock())[:3])
         beat=self.folder/'heartbeat.json'
         if beat.exists():lines.append('Collector: '+json.loads(beat.read_text())['updated_utc'])
         backup=self.folder/'backup_health.json'
@@ -122,7 +127,7 @@ class Controller:
         try:
             if cmd in ('/start','/help'):
                 self.set('notifications','1');self.queue(HELP)
-            elif cmd=='/lab':
+            elif cmd in ('/lab','/news'):
                 chunk=''
                 for line in self.report(cmd).splitlines():
                     if len(chunk)+len(line)+1>3900:
@@ -199,6 +204,11 @@ class Controller:
         results=await poll_session(self.folder/'automatic',allow_entry=self.get('paused')!='1')
         results.extend(await poll_us(self.folder/'us_automatic',allow_entry=self.get('paused')!='1'))
         self.notify_market_open(results)
+        # Original account/risk handling runs first. News never supplies orders.
+        try:
+            await asyncio.to_thread(poll_news,self.folder/'research_news')
+        except Exception:
+            pass  # News storage errors must not interrupt paper account reporting.
         beat={'mode':'PAPER_ONLY','updated_utc':utc(self.clock()),'results':results}
         save_state(self.folder/'heartbeat.json',beat)
         if self.get('notifications')=='1':
