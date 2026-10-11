@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-11T09:27:39.418329+00:00",
+  "checked_at": "2026-10-11T11:38:38.513832+00:00",
   "mode": "OFFLINE_FIXTURE_TESTS",
   "suites": [
     {
@@ -10,7 +10,7 @@
     },
     {
       "suite": "research",
-      "tests": 121,
+      "tests": 126,
       "passed": true,
       "returncode": 0
     }
@@ -37,6 +37,7 @@
     "research/research_inputs.py": "2f6b33a12e8c1934b6f511128182973775b882d77af75c15be0d5fde241d219d",
     "research/research_workbench.py": "1bbb38ff39e89cea9ab8f5bd95ad4f70c2ba0d8196279aad2508fab9a696dd83",
     "research/run_paper_service.py": "a5c707d74fe93235f493516cb827278a0ca333f9bca22c26ddfb9d04ef4f49b0",
+    "research/spy_campaign.py": "6c7ec0f617ff2540cfd32ec215698a48ad85550c0bfb943f6f1aa367b9bb688e",
     "research/strategy_lab.py": "28d83a6d619d9e4eac61c358acebc3544db549ef3f6d62beedb61d6cb35f93bf",
     "research/summarize_results.py": "6e1e6268dfe65b016ff8ab1b2f9b0b287163b2e7f5d34d4720e6e490b7d4abe9",
     "research/telegram_paper_bot.py": "a5af9be52e7d4bfbd15d88a691a6ba2e5737a0f27154cce67bd14645507e1e6f",
@@ -49,6 +50,7 @@
     "research/test_prospective_lab.py": "cd432502c15ccd5f0f543d687b6259b7e46afb5333af48a8f02b075838f2a7f5",
     "research/test_prospective_paper.py": "c406e65ef1669b9e1c1a1fdf0d29e32e61d906c6876fe2efa6f5aee74f038f0b",
     "research/test_research_inputs.py": "b01d243857909b4cd434d31a5c7563436699b658618ac0bfbca8ffdddb220885",
+    "research/test_spy_campaign.py": "c3cfae91e6260bd04a20a80b00de9ca78b28bc0a02554cede06beabfb5f98d66",
     "research/test_strategy_lab.py": "adcab992c5caee0b9df3ee0090fb7f7b7bf12b3377954b0f219d9f647ff09275",
     "research/test_telegram_paper_bot.py": "dc08706cebe8eff7843346d29c727cf3a5bd700ef5e46bac126ad0911d03c125",
     "research/test_us_accounting.py": "170fea09b956daeafb5a6fcdbfadd372daea88e34da18d369b49579c5e128cb2",
