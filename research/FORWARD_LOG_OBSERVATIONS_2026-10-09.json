@@ -1,0 +1,794 @@
+[
+  {
+    "observed_ms": 1791552665689,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "AWAITING_POST_DECISION_QUOTE",
+      "baseline:2": "AWAITING_POST_DECISION_QUOTE",
+      "news_delay:1": "AWAITING_POST_DECISION_QUOTE",
+      "news_delay:2": "AWAITING_POST_DECISION_QUOTE"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791552984725,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "SIMULATED_BUY",
+      "baseline:2": "SIMULATED_BUY",
+      "news_delay:1": "SIMULATED_BUY",
+      "news_delay:2": "SIMULATED_BUY"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791553302515,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791553619554,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791553936657,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791554253577,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791554570825,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791554889690,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791555207593,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791555524564,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791555841664,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791556161609,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791556478546,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791556796539,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791557114851,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791557432660,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791557750634,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791558068932,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791558381535,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791558699587,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791559018664,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791559336615,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791559655588,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791559972573,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791560289603,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791560606532,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791560924536,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791561242671,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791561560556,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791561877524,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791562196844,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791562509826,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791562827534,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791563146683,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791563463850,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791563780740,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791564098561,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791564416498,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791564733536,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791565051639,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791565368899,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791565687963,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791566005706,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791566322760,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791566639705,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791566960852,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791567279951,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791567597793,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791567916090,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791568233816,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791568551833,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791568871270,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791569188867,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791569509068,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791569826980,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791570137984,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791570455766,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791570772816,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791571091744,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791571408779,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791571726759,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791572043820,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791572361656,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791572679789,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791572996589,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791573314007,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791573631632,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791574267004,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791574584546,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791574901674,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791575218773,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791575536591,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "NO_ACTION",
+      "baseline:2": "NO_ACTION",
+      "news_delay:1": "NO_ACTION",
+      "news_delay:2": "NO_ACTION"
+    },
+    "paper_only": true
+  }
+]

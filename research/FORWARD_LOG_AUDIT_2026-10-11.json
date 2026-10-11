@@ -1,0 +1,48 @@
+{
+  "mode": "PAPER_LOG_AUDIT_ONLY",
+  "observations": 72,
+  "first_observed_ms": 1791552665689,
+  "last_observed_ms": 1791575536591,
+  "invalid_news_coverage_observations": [],
+  "candidate_observation_gaps": [
+    {
+      "day": "2026-10-09",
+      "from_ms": 1791573631632,
+      "to_ms": 1791574267004,
+      "seconds": 635.372
+    }
+  ],
+  "status_counts": {
+    "baseline:1": {
+      "AWAITING_POST_DECISION_QUOTE": 1,
+      "SIMULATED_BUY": 1,
+      "NO_ACTION": 70
+    },
+    "baseline:2": {
+      "AWAITING_POST_DECISION_QUOTE": 1,
+      "SIMULATED_BUY": 1,
+      "NO_ACTION": 70
+    },
+    "news_delay:1": {
+      "AWAITING_POST_DECISION_QUOTE": 1,
+      "SIMULATED_BUY": 1,
+      "NO_ACTION": 70
+    },
+    "news_delay:2": {
+      "AWAITING_POST_DECISION_QUOTE": 1,
+      "SIMULATED_BUY": 1,
+      "NO_ACTION": 70
+    }
+  },
+  "session_completeness_verified": false,
+  "ledger_reconciled": false,
+  "strategy_validated": false,
+  "review_required": true,
+  "limitations": [
+    "Bounded logs may omit observations; gaps require persisted-ledger review.",
+    "News coverage is not full quote or session coverage.",
+    "No session calendar, balances, quotes or corporate-action records are certified.",
+    "No P/L, trade count or winner can be inferred from health statuses."
+  ],
+  "input_sha256": "ba1a39f982ebce95954039625df9894ab49cf5189e8b63e63a3f77a082612251"
+}
