@@ -17,6 +17,7 @@ Bot creation reference: https://core.telegram.org/bots/tutorial#obtain-your-bot-
 |---|---|
 | `/start`, `/help` | Instructions; `/start` enables notifications |
 | `/status`, `/positions`, `/report` | Virtual balances, holdings, modeled P/L, quote age, costs and collector timestamp |
+| `/audit` (review branch; requires deployment) | Read-only recorded-balance replay for the four AAPL delayed-news lab accounts, saved mark ages and evidence gaps; no performance certification |
 | `/trends` | Automatic daily SMA20/SMA100 signal and observation time; no fresh price fetch implied |
 | `/trades` | Last five simulated fills per account |
 | `/pause` | Block new entries; allow existing risk checks and strategy exits; does not liquidate holdings |
