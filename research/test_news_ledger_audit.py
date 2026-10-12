@@ -21,6 +21,24 @@ def fixture():
 
 
 class LedgerAuditTests(unittest.TestCase):
+    def test_malformed_action_fails_without_crashing_or_mutating(self):
+        state, now = fixture()
+        state['accounts']['baseline:1']['action_ledger'] = ['PRIVATE_SECRET']
+        before = copy.deepcopy(state)
+        self.assertFalse(audit(state, now)['ledger_reconciled'])
+        self.assertEqual(state, before)
+        with tempfile.TemporaryDirectory() as folder:
+            (Path(folder)/'AAPL_news_lab.json').write_text(json.dumps(state))
+            output = '\n'.join(report(folder, now))
+            self.assertIn('FAILED', output)
+            self.assertNotIn('PRIVATE_SECRET', output)
+
+    def test_invalid_observation_clock_rejected(self):
+        state, now = fixture()
+        for observed in (True, -1, float('nan'), float('inf'), 'now', now + .5):
+            with self.assertRaises(ValueError):
+                audit(state, observed)
+
     def test_replay_pass_does_not_certify_returns_or_mutate(self):
         state, now = fixture(); original = copy.deepcopy(state)
         result = audit(state, now)

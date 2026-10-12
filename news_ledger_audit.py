@@ -10,6 +10,8 @@ KEYS = {'baseline:1', 'baseline:2', 'news_delay:1', 'news_delay:2'}
 
 
 def audit(state, observed):
+    if type(observed) is not int or observed < 0:
+        raise ValueError('NEWS_AUDIT_OBSERVATION_INVALID')
     if not isinstance(state, dict):
         raise ValueError('NEWS_AUDIT_STATE_INVALID')
     if (state.get('version') != 'NEWSLAB.1' or state.get('fingerprint') != FINGERPRINT
@@ -42,6 +44,8 @@ def audit(state, observed):
                     raise ValueError('Invalid fill timing or mode')
                 previous = event
             for action in a.get('action_ledger', []):
+                if not isinstance(action, dict):
+                    raise ValueError('Invalid recorded action structure')
                 if type(action.get('effective_ms')) is not int or not 0 <= action['effective_ms'] <= observed:
                     raise ValueError('Invalid recorded action time')
                 field = 'ratio' if action.get('type') == 'split' else 'amount'
