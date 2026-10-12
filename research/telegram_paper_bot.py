@@ -16,9 +16,10 @@ from us_paper import poll_us, report_us
 from prospective_lab import report as report_lab
 from news_collector import poll_news, report_news
 from news_paper_lab import report as report_news_lab
+from news_ledger_audit import report as report_news_audit
 from paper_backup import snapshot
 
-HELP=('PAPER ONLY — strategy unvalidated.\n/status /positions /trends /trades /report /lab /news /news_lab\n'
+HELP=('PAPER ONLY — strategy unvalidated.\n/status /positions /trends /trades /report /lab /news /news_lab /audit\n'
       '/pause stops new automatic entries; exits/risk checks continue.\n'
       '/resume enables entries; never resets a risk pause.\n'
       '/paper_trade BUY BTCUSDT (or ETHUSDT)\n'
@@ -77,6 +78,8 @@ class Controller:
             if p.exists():found.append(json.loads(p.read_text()))
         return found
     def report(self,command):
+        if command=='/audit':
+            return '\n'.join(report_news_audit(self.folder/'us_automatic'/'news_lab',self.clock()))
         if command=='/news_lab':
             return '\n'.join(report_news_lab(self.folder/'us_automatic'/'news_lab',self.clock()))
         if command=='/news':
@@ -130,7 +133,7 @@ class Controller:
         try:
             if cmd in ('/start','/help'):
                 self.set('notifications','1');self.queue(HELP)
-            elif cmd in ('/lab','/news','/news_lab'):
+            elif cmd in ('/lab','/news','/news_lab','/audit'):
                 chunk=''
                 for line in self.report(cmd).splitlines():
                     if len(chunk)+len(line)+1>3900:

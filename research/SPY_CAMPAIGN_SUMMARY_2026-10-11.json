@@ -1,0 +1,145 @@
+{
+  "symbol": "SPY",
+  "mode": "RETROSPECTIVE_DEVELOPMENT_ONLY",
+  "strategy_validated": false,
+  "selected_strategy": null,
+  "limitations": [
+    "Adjusted synthetic units are not executable whole shares.",
+    "Input prices/actions require independent cross-verification.",
+    "Yearly starts are independent; do not compound or pool them.",
+    "Known history and repeated comparisons cannot prove an edge.",
+    "Daily-close drawdown trigger is not a guaranteed loss cap."
+  ],
+  "input_sha256": "6c93e12d27b2725ed1e1de27c6997664d1b25cf298c24e7d42cf0709790c29d5",
+  "calendar_sha256": "c399eb611c99c4208fac6584da95cdd375f4df773f6a4d04f87292073526ce10",
+  "comparison_count": 200,
+  "data_checks": {
+    "provider": "Yahoo chart API unofficial personal research snapshot",
+    "symbol": "SPY",
+    "snapshot_file_mtime_utc": "2026-10-11T11:32:58.921366+00:00",
+    "raw_sha256": "8b58c3e0a61c104221a370f8137c0428d4b795cd338e0b6f52efa7450a5fa209",
+    "calendar_version": "4.11.2",
+    "bars": 5218,
+    "missing": [],
+    "extra": [],
+    "corrections": [
+      {
+        "date": "2007-04-13",
+        "field": "High",
+        "original": 101.78234863281249,
+        "normalized": 101.7823486328125
+      },
+      {
+        "date": "2007-04-20",
+        "field": "High",
+        "original": 104.09365844726561,
+        "normalized": 104.09365844726562
+      }
+    ],
+    "transformation": "OHLC scaled by AdjClose/Close; distributions zero; synthetic prices",
+    "independent_price_validation": false
+  },
+  "groups": [
+    {
+      "strategy": "sma_20_100",
+      "cost_multiplier": 1,
+      "windows": 20,
+      "outperform_buy_hold_windows": 3,
+      "positive_return_windows": 12,
+      "median_independent_window_return_pct": 1.014582157341437,
+      "worst_window_drawdown_pct": -7.140923771266916,
+      "natural_roundtrips_across_separate_windows": 25
+    },
+    {
+      "strategy": "breakout_55_20",
+      "cost_multiplier": 1,
+      "windows": 20,
+      "outperform_buy_hold_windows": 3,
+      "positive_return_windows": 12,
+      "median_independent_window_return_pct": 1.1273639696607884,
+      "worst_window_drawdown_pct": -4.062952823064048,
+      "natural_roundtrips_across_separate_windows": 61
+    },
+    {
+      "strategy": "mean_reversion_20",
+      "cost_multiplier": 1,
+      "windows": 20,
+      "outperform_buy_hold_windows": 3,
+      "positive_return_windows": 13,
+      "median_independent_window_return_pct": 1.0586418264545094,
+      "worst_window_drawdown_pct": -11.32190469898755,
+      "natural_roundtrips_across_separate_windows": 93
+    },
+    {
+      "strategy": "buy_hold_25",
+      "cost_multiplier": 1,
+      "windows": 20,
+      "outperform_buy_hold_windows": 0,
+      "positive_return_windows": 17,
+      "median_independent_window_return_pct": 3.414226038604129,
+      "worst_window_drawdown_pct": -11.94441399675108,
+      "natural_roundtrips_across_separate_windows": 0
+    },
+    {
+      "strategy": "cash",
+      "cost_multiplier": 1,
+      "windows": 20,
+      "outperform_buy_hold_windows": 3,
+      "positive_return_windows": 0,
+      "median_independent_window_return_pct": 0.0,
+      "worst_window_drawdown_pct": 0.0,
+      "natural_roundtrips_across_separate_windows": 0
+    },
+    {
+      "strategy": "sma_20_100",
+      "cost_multiplier": 2,
+      "windows": 20,
+      "outperform_buy_hold_windows": 3,
+      "positive_return_windows": 12,
+      "median_independent_window_return_pct": 0.8106553892658463,
+      "worst_window_drawdown_pct": -7.200482389740193,
+      "natural_roundtrips_across_separate_windows": 25
+    },
+    {
+      "strategy": "breakout_55_20",
+      "cost_multiplier": 2,
+      "windows": 20,
+      "outperform_buy_hold_windows": 3,
+      "positive_return_windows": 11,
+      "median_independent_window_return_pct": 0.681649476718682,
+      "worst_window_drawdown_pct": -4.283063828481504,
+      "natural_roundtrips_across_separate_windows": 61
+    },
+    {
+      "strategy": "mean_reversion_20",
+      "cost_multiplier": 2,
+      "windows": 20,
+      "outperform_buy_hold_windows": 3,
+      "positive_return_windows": 13,
+      "median_independent_window_return_pct": 0.6934074374358223,
+      "worst_window_drawdown_pct": -11.51395896644506,
+      "natural_roundtrips_across_separate_windows": 93
+    },
+    {
+      "strategy": "buy_hold_25",
+      "cost_multiplier": 2,
+      "windows": 20,
+      "outperform_buy_hold_windows": 0,
+      "positive_return_windows": 17,
+      "median_independent_window_return_pct": 3.323445629715416,
+      "worst_window_drawdown_pct": -11.965259567809007,
+      "natural_roundtrips_across_separate_windows": 0
+    },
+    {
+      "strategy": "cash",
+      "cost_multiplier": 2,
+      "windows": 20,
+      "outperform_buy_hold_windows": 3,
+      "positive_return_windows": 0,
+      "median_independent_window_return_pct": 0.0,
+      "worst_window_drawdown_pct": 0.0,
+      "natural_roundtrips_across_separate_windows": 0
+    }
+  ],
+  "protocol_sha256": "5bcdf6c64c4371c83c24d7e730225caac3c6d2ef9d8e04c07ed269abbeb1f426"
+}

@@ -7,6 +7,15 @@ from telegram_paper_bot import Controller,TelegramAPI
 from prospective_paper import new_session,save_state
 
 class TelegramTests(unittest.IsolatedAsyncioTestCase):
+    async def test_audit_owner_only_and_no_network(self):
+        await self.c.handle(self.update('/audit',owner=9))
+        self.assertEqual(self.messages(),[])
+        with patch('telegram_paper_bot.poll_us',new_callable=AsyncMock) as poll:
+            await self.c.handle(self.update('/audit',ident=2))
+            poll.assert_not_awaited()
+        self.assertIn('read-only',self.messages()[0])
+        self.assertIn('No saved',self.messages()[0])
+
     async def test_news_failure_does_not_block_original_account_results(self):
         with patch('telegram_paper_bot.poll_session',new_callable=AsyncMock,return_value=[]),patch('telegram_paper_bot.poll_us',new_callable=AsyncMock,return_value=[self.open_event()]),patch('telegram_paper_bot.poll_news',side_effect=RuntimeError('fixture')):
             result=await self.c.collect()
