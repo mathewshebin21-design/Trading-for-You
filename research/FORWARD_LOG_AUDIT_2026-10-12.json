@@ -1,0 +1,51 @@
+{
+  "mode": "PAPER_LOG_AUDIT_ONLY",
+  "observations": 74,
+  "first_observed_ms": 1791811908850,
+  "last_observed_ms": 1791835112623,
+  "invalid_news_coverage_observations": [],
+  "candidate_observation_gaps": [],
+  "status_counts": {
+    "baseline:1": {
+      "AWAITING_POST_DECISION_QUOTE": 1,
+      "CORPORATE_ACTION_REVIEW_REQUIRED": 73
+    },
+    "baseline:2": {
+      "AWAITING_POST_DECISION_QUOTE": 1,
+      "CORPORATE_ACTION_REVIEW_REQUIRED": 73
+    },
+    "news_delay:1": {
+      "AWAITING_POST_DECISION_QUOTE": 1,
+      "CORPORATE_ACTION_REVIEW_REQUIRED": 73
+    },
+    "news_delay:2": {
+      "AWAITING_POST_DECISION_QUOTE": 1,
+      "CORPORATE_ACTION_REVIEW_REQUIRED": 73
+    }
+  },
+  "session_completeness_verified": false,
+  "ledger_reconciled": false,
+  "strategy_validated": false,
+  "blocked_status_counts": {
+    "baseline:1": {
+      "CORPORATE_ACTION_REVIEW_REQUIRED": 73
+    },
+    "baseline:2": {
+      "CORPORATE_ACTION_REVIEW_REQUIRED": 73
+    },
+    "news_delay:1": {
+      "CORPORATE_ACTION_REVIEW_REQUIRED": 73
+    },
+    "news_delay:2": {
+      "CORPORATE_ACTION_REVIEW_REQUIRED": 73
+    }
+  },
+  "review_required": true,
+  "limitations": [
+    "Bounded logs may omit observations; gaps require persisted-ledger review.",
+    "News coverage is not full quote or session coverage.",
+    "No session calendar, balances, quotes or corporate-action records are certified.",
+    "No P/L, trade count or winner can be inferred from health statuses."
+  ],
+  "input_sha256": "e357ba21ac8a385292a1fcb757391efcbb86d82dd0d3e5e3422e99daa0c475c2"
+}

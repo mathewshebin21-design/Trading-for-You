@@ -11,6 +11,18 @@ def records():
 
 
 class AuditTests(unittest.TestCase):
+    def test_valid_news_does_not_hide_corporate_review_or_quote_rejection(self):
+        for status in ('CORPORATE_ACTION_REVIEW_REQUIRED', 'NO_FILL_QUOTE_UNAVAILABLE',
+                       'NEWS_COVERAGE_ENTRY_BLOCKED'):
+            rows = records()
+            rows[1]['statuses']['baseline:1'] = status
+            original = copy.deepcopy(rows)
+            result = audit(rows)
+            self.assertTrue(result['review_required'])
+            self.assertEqual(result['blocked_status_counts']['baseline:1'], {status: 1})
+            self.assertFalse(result['strategy_validated'])
+            self.assertEqual(rows, original)
+
     def test_clean_logs_do_not_certify_performance(self):
         result = audit(records())
         self.assertFalse(result['review_required'])

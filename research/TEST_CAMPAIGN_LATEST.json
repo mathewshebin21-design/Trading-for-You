@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-12T03:24:40.082845+00:00",
+  "checked_at": "2026-10-13T03:14:06.091639+00:00",
   "mode": "OFFLINE_FIXTURE_TESTS",
   "suites": [
     {
@@ -10,7 +10,7 @@
     },
     {
       "suite": "research",
-      "tests": 141,
+      "tests": 142,
       "passed": true,
       "returncode": 0
     }
@@ -25,7 +25,7 @@
     "prospective_paper.py": "a538d6cbd4adc499b9c48d6fb3a546e46cf68e7e957d7b9211a023c20f4b2f2d",
     "railway_start.py": "72c5ecf5aa844eaaa9fa96dd88cca06186015ac9a89bb89bafa0db7524ff87d0",
     "research/adjusted_history.py": "21ce3ada78c2d70992523a698ea1e07dcef54fba0221946ffe80f78111683486",
-    "research/audit_forward_logs.py": "3d69b6026d04762f952e16a87c5d381146720962c199b69065f4ecbc1efcc312",
+    "research/audit_forward_logs.py": "fbb802e95cb7e43faa005409091f88450c441b891400f8818091320eec6bb3a1",
     "research/build_notebook_002.py": "2bd0e2b7fdbb7447980783c14472fdb6f037f8de2745ef56a7a03dcf029fdc8d",
     "research/build_telegram_colab.py": "35a08fc2d36649dd6ef65f93a3b4673fbfd1f33f975d6581af1c65e325c015f5",
     "research/identify_telegram_owner.py": "81e606df0d7c2a9761f62ba77a90f0a9c31c0f008948b5650e26e5cbfc795f76",
@@ -45,7 +45,7 @@
     "research/summarize_results.py": "6e1e6268dfe65b016ff8ab1b2f9b0b287163b2e7f5d34d4720e6e490b7d4abe9",
     "research/telegram_paper_bot.py": "d69631652078cc94096e5d8b69c88d84eabdc241da0dbc6cdb2586c1ab394245",
     "research/test_adjusted_history.py": "74e3e326abefa9815a6a6c7f809bd09a7171c2c0f1b62f2b9838fb24163b6a91",
-    "research/test_audit_forward_logs.py": "5907acd895ad673068d183c39fbeb3573a7fa8323ded79da46efdf4c7da2c436",
+    "research/test_audit_forward_logs.py": "a605e1cd634262b2f202a3a62d4a9c9c2f7a6c7ac68e362beefb26025ec88422",
     "research/test_news_collector.py": "0e34e6e79ec1a692882074aa8a7dcccc233c44fe0f3c25ae89badc72bcd7cd82",
     "research/test_news_ledger_audit.py": "af54913acc158dc9738286fe3c391258cb09ef39b6fa46148c54a3b8ea6d4ecc",
     "research/test_news_paper_lab.py": "067b7e0e029d18fdbe8c36b2ba2c784f90f4c9a3ad9808765f311c8b3328ef9d",
