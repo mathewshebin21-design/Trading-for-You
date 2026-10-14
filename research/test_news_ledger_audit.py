@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
-from news_ledger_audit import audit, report
+from news_ledger_audit import audit, report, review_diagnostic
 from news_paper_lab import advance
 from us_paper import sessions
 
@@ -21,6 +21,37 @@ def fixture():
 
 
 class LedgerAuditTests(unittest.TestCase):
+    def test_review_missing_malformed_and_oversized_are_safe(self):
+        state, now = fixture()
+        with tempfile.TemporaryDirectory() as folder:
+            lab = Path(folder)/'news_lab'
+            self.assertIn('MISSING', '\n'.join(review_diagnostic(lab, state, now)))
+            reviews = Path(folder)/'action_reviews'; reviews.mkdir()
+            path = reviews/'AAPL.json'
+            for content in ('PRIVATE_SECRET', 'x' * 1_000_001):
+                path.write_text(content)
+                output = '\n'.join(review_diagnostic(lab, state, now))
+                self.assertIn('INVALID_OR_UNREADABLE', output)
+                self.assertNotIn('PRIVATE_SECRET', output)
+
+    def test_review_dry_run_reports_coverage_without_mutation(self):
+        state, now = fixture(); before = copy.deepcopy(state)
+        manifest = {'symbol':'AAPL', 'currency':'USD', 'reviewed':True,
+                    'reviewer':'fixture', 'reviewed_ms':now,
+                    'source_urls':['https://example.test/fixture'],
+                    'coverage_start':'2026-10-09', 'coverage_end':'2026-10-09', 'actions':[]}
+        with tempfile.TemporaryDirectory() as folder:
+            reviews = Path(folder)/'action_reviews'; reviews.mkdir()
+            path = reviews/'AAPL.json'; path.write_text(json.dumps(manifest))
+            content = path.read_bytes()
+            output = '\n'.join(review_diagnostic(Path(folder)/'news_lab',state,now))
+            self.assertEqual(output.count('DRY_RUN_PASS'), 4)
+            self.assertEqual(state,before); self.assertEqual(path.read_bytes(),content)
+            manifest['coverage_end']='2026-10-08'; path.write_text(json.dumps(manifest))
+            output = '\n'.join(review_diagnostic(Path(folder)/'news_lab',state,now))
+            self.assertEqual(output.count('ACTION_COVERAGE_INCOMPLETE'),4)
+            self.assertEqual(state,before)
+
     def test_malformed_action_fails_without_crashing_or_mutating(self):
         state, now = fixture()
         state['accounts']['baseline:1']['action_ledger'] = ['PRIVATE_SECRET']
