@@ -22,6 +22,12 @@ if __name__=='__main__':
     try:
         result=install(state,'/app/AAPL_review_2026-10-14.json',int(time.time()*1000))
         print('ACTION_REVIEW_BOOTSTRAP '+result,flush=True)
-    except Exception:
-        print('ACTION_REVIEW_BOOTSTRAP VALIDATION_FAILED_NO_REPAIR',flush=True)
+    except Exception as error:
+        from us_accounting import ReviewRequired
+        allowed={'ACTION_COVERAGE_INCOMPLETE','ACTION_REVIEW_MISSING',
+                 'ACTION_REVIEW_TIME_INVALID','ACTION_FUTURE_COVERAGE_REJECTED',
+                 'ACTION_RECORD_REMOVED','ACTION_LATE_REQUIRES_REPLAY',
+                 'LEDGER_BALANCE_MISMATCH','LEDGER_NEGATIVE_BALANCE'}
+        reason=str(error) if isinstance(error,ReviewRequired) and str(error) in allowed else 'VALIDATION_FAILED'
+        print('ACTION_REVIEW_BOOTSTRAP '+reason+'_NO_REPAIR',flush=True)
     os.execv(sys.executable,[sys.executable,'-u','/app/telegram_paper_bot.py'])
