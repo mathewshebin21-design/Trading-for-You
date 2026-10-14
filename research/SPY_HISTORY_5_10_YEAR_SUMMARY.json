@@ -1,0 +1,124 @@
+{
+  "symbol": "SPY",
+  "measurement_end": "2025-12-31",
+  "input_sha256": "6c93e12d27b2725ed1e1de27c6997664d1b25cf298c24e7d42cf0709790c29d5",
+  "calendar_sha256": "c399eb611c99c4208fac6584da95cdd375f4df773f6a4d04f87292073526ce10",
+  "mode": "KNOWN_HISTORY_DEVELOPMENT_ONLY",
+  "model_trained": false,
+  "strategy_validated": false,
+  "independent_price_verification": false,
+  "campaigns": {
+    "10": {
+      "1": {
+        "breakout_55_20": {
+          "windows": 10,
+          "beats_matched_buyhold": 2,
+          "mean_excess_pct_points": -2.653073399366871
+        },
+        "buy_hold_25": {
+          "windows": 10,
+          "beats_matched_buyhold": 0,
+          "mean_excess_pct_points": 0.0
+        },
+        "cash": {
+          "windows": 10,
+          "beats_matched_buyhold": 2,
+          "mean_excess_pct_points": -3.8836457747509456
+        },
+        "mean_reversion_20": {
+          "windows": 10,
+          "beats_matched_buyhold": 2,
+          "mean_excess_pct_points": -3.2068986135491544
+        },
+        "sma_20_100": {
+          "windows": 10,
+          "beats_matched_buyhold": 1,
+          "mean_excess_pct_points": -1.750616834511367
+        }
+      },
+      "2": {
+        "breakout_55_20": {
+          "windows": 10,
+          "beats_matched_buyhold": 2,
+          "mean_excess_pct_points": -2.854850744580022
+        },
+        "buy_hold_25": {
+          "windows": 10,
+          "beats_matched_buyhold": 0,
+          "mean_excess_pct_points": 0.0
+        },
+        "cash": {
+          "windows": 10,
+          "beats_matched_buyhold": 2,
+          "mean_excess_pct_points": -3.791365513907995
+        },
+        "mean_reversion_20": {
+          "windows": 10,
+          "beats_matched_buyhold": 2,
+          "mean_excess_pct_points": -3.4610487514882315
+        },
+        "sma_20_100": {
+          "windows": 10,
+          "beats_matched_buyhold": 1,
+          "mean_excess_pct_points": -1.8248354018558544
+        }
+      }
+    },
+    "5": {
+      "1": {
+        "breakout_55_20": {
+          "windows": 5,
+          "beats_matched_buyhold": 1,
+          "mean_excess_pct_points": -2.5385107803363782
+        },
+        "buy_hold_25": {
+          "windows": 5,
+          "beats_matched_buyhold": 0,
+          "mean_excess_pct_points": 0.0
+        },
+        "cash": {
+          "windows": 5,
+          "beats_matched_buyhold": 1,
+          "mean_excess_pct_points": -3.815105235619309
+        },
+        "mean_reversion_20": {
+          "windows": 5,
+          "beats_matched_buyhold": 1,
+          "mean_excess_pct_points": -3.429902673245384
+        },
+        "sma_20_100": {
+          "windows": 5,
+          "beats_matched_buyhold": 0,
+          "mean_excess_pct_points": -0.9039341164414469
+        }
+      },
+      "2": {
+        "breakout_55_20": {
+          "windows": 5,
+          "beats_matched_buyhold": 1,
+          "mean_excess_pct_points": -2.741014430526623
+        },
+        "buy_hold_25": {
+          "windows": 5,
+          "beats_matched_buyhold": 0,
+          "mean_excess_pct_points": 0.0
+        },
+        "cash": {
+          "windows": 5,
+          "beats_matched_buyhold": 1,
+          "mean_excess_pct_points": -3.7230438839054436
+        },
+        "mean_reversion_20": {
+          "windows": 5,
+          "beats_matched_buyhold": 1,
+          "mean_excess_pct_points": -3.7213051319186596
+        },
+        "sma_20_100": {
+          "windows": 5,
+          "beats_matched_buyhold": 0,
+          "mean_excess_pct_points": -0.9808258604606124
+        }
+      }
+    }
+  }
+}
