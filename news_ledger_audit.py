@@ -3,10 +3,44 @@ import json
 import math
 from datetime import date
 from pathlib import Path
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from news_paper_lab import FINGERPRINT
-from us_accounting import audit_balances
+from us_accounting import audit_balances, reconcile, ReviewRequired
 
 KEYS = {'baseline:1', 'baseline:2', 'news_delay:1', 'news_delay:2'}
+
+
+def review_diagnostic(folder, state, observed):
+    """Inspect the existing review and dry-run reconciliation on copies only."""
+    path = Path(folder).parent / 'action_reviews' / 'AAPL.json'
+    lines = ['Corporate-action review file: us_automatic/action_reviews/AAPL.json']
+    if not path.exists():
+        return lines + ['Review file: MISSING; independently reviewed coverage is required.']
+    try:
+        if path.stat().st_size > 1_000_000:
+            raise ValueError('Oversized review')
+        manifest = json.loads(path.read_text())
+        day = datetime.fromtimestamp(observed / 1000, ZoneInfo('America/New_York')).date().isoformat()
+        lines.append('Review file: PRESENT; checking coverage through ' + day)
+        for key in sorted(KEYS):
+            try:
+                reconcile(state['accounts'][key], manifest, day, observed)
+                status = 'DRY_RUN_PASS'
+            except ReviewRequired as error:
+                # Only fixed, source-defined accounting reasons; never payload text.
+                status = str(error) if str(error) in {
+                    'ACTION_COVERAGE_INCOMPLETE', 'ACTION_REVIEW_MISSING',
+                    'ACTION_REVIEW_TIME_INVALID', 'ACTION_FUTURE_COVERAGE_REJECTED',
+                    'ACTION_IDENTITY_MISMATCH', 'ACTION_SOURCE_INVALID',
+                    'ACTION_LATE_REQUIRES_REPLAY', 'ACTION_REVISION_REQUIRES_REPLAY',
+                    'ACTION_RECORD_REMOVED', 'ACTION_UNSUPPORTED',
+                    'ACTION_SAME_DAY_ORDER_REVIEW', 'ACTION_FRACTIONAL_CASH_IN_LIEU_REVIEW'
+                } else 'ACTION_REVIEW_INVALID'
+            lines.append(key + ': ' + status)
+        return lines + ['Dry run only: no balances, review flags or invalid days changed.']
+    except (OSError, KeyError, TypeError, ValueError, OverflowError, AttributeError):
+        return lines + ['Review diagnostic: INVALID_OR_UNREADABLE; no repair performed.']
 
 
 def audit(state, observed):
@@ -86,7 +120,8 @@ def report(folder, observed):
         # Bounded reader, single atomic-state snapshot. No state repair or write.
         if path.stat().st_size > 20_000_000:
             raise ValueError('Oversized state')
-        result = audit(json.loads(path.read_text()), observed)
+        state = json.loads(path.read_text())
+        result = audit(state, observed)
     except (OSError, KeyError, TypeError, ValueError, OverflowError):
         return lines + ['AUDIT_FAILED: saved state unreadable or identity/rules invalid. No repair performed.']
     lines.append('Recorded-action balance replay: ' + ('PASS' if result['ledger_reconciled'] else 'FAILED'))
@@ -100,4 +135,4 @@ def report(folder, observed):
     lines += ['Replay checks recorded arithmetic, not independent corporate-action evidence.',
               'Saved marks may be old outside market hours; this command fetches no quotes.',
               'Session completeness NOT verified. No P/L or profitability certification.']
-    return lines
+    return lines + review_diagnostic(folder, state, observed)

@@ -14,6 +14,7 @@ def audit(rows):
         raise ValueError('No observations to audit')
     previous = None
     gaps, invalid = [], []
+    blocked_counts = {key: {} for key in sorted(ACCOUNTS)}
     status_counts = {key: {} for key in sorted(ACCOUNTS)}
     for row in rows:
         observed = row['observed_ms']
@@ -38,13 +39,17 @@ def audit(rows):
             if not isinstance(status, str) or not status:
                 raise ValueError('Invalid account status')
             status_counts[key][status] = status_counts[key].get(status, 0) + 1
+            if (status == 'CORPORATE_ACTION_REVIEW_REQUIRED'
+                    or status.startswith(('NO_FILL_', 'NEWS_COVERAGE_'))):
+                blocked_counts[key][status] = blocked_counts[key].get(status, 0) + 1
         previous = row
     return {'mode': 'PAPER_LOG_AUDIT_ONLY', 'observations': len(rows),
             'first_observed_ms': rows[0]['observed_ms'], 'last_observed_ms': rows[-1]['observed_ms'],
             'invalid_news_coverage_observations': invalid, 'candidate_observation_gaps': gaps,
             'status_counts': status_counts, 'session_completeness_verified': False,
             'ledger_reconciled': False, 'strategy_validated': False,
-            'review_required': bool(gaps or invalid),
+            'blocked_status_counts': blocked_counts,
+            'review_required': bool(gaps or invalid or any(blocked_counts.values())),
             'limitations': ['Bounded logs may omit observations; gaps require persisted-ledger review.',
                             'News coverage is not full quote or session coverage.',
                             'No session calendar, balances, quotes or corporate-action records are certified.',
