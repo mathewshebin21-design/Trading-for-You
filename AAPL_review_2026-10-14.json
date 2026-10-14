@@ -1,0 +1,15 @@
+{
+  "symbol": "AAPL",
+  "currency": "USD",
+  "reviewed": true,
+  "reviewer": "Codex source review 2026-10-14",
+  "reviewed_ms": 1791960699592,
+  "source_urls": [
+    "https://investor.apple.com/dividend-history/default.aspx",
+    "https://investor.apple.com/faq/default.aspx"
+  ],
+  "coverage_start": "2026-10-09",
+  "coverage_end": "2026-10-14",
+  "actions": [],
+  "review_scope": "Ordinary AAPL cash dividends and stock splits in the stated interval, based on issuer published history. No future coverage; re-review required for subsequent sessions. Unsupported actions remain outside automated accounting."
+}

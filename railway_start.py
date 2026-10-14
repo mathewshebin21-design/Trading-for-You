@@ -16,4 +16,12 @@ if __name__=='__main__':
         os.chown(state,10001,10001);os.setgid(10001);os.setuid(10001)
     os.environ['PAPER_STATE_DIR']=str(state)
     os.environ.setdefault('PAPER_POLL_SECONDS','300')
+    # One dated source-reviewed recovery; no account or historical validity edits.
+    from action_review_bootstrap import install
+    import time
+    try:
+        result=install(state,'/app/AAPL_review_2026-10-14.json',int(time.time()*1000))
+        print('ACTION_REVIEW_BOOTSTRAP '+result,flush=True)
+    except Exception:
+        print('ACTION_REVIEW_BOOTSTRAP VALIDATION_FAILED_NO_REPAIR',flush=True)
     os.execv(sys.executable,[sys.executable,'-u','/app/telegram_paper_bot.py'])
