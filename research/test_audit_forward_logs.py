@@ -11,6 +11,22 @@ def records():
 
 
 class AuditTests(unittest.TestCase):
+    def test_consecutive_missing_lab_cycles_remain_distinct_review_gaps(self):
+        # Synthetic reproduction of two October 14 observation intervals.
+        rows = records()
+        rows[1]['observed_ms'] = rows[0]['observed_ms'] + 640759
+        rows[2]['observed_ms'] = rows[1]['observed_ms'] + 635967
+        for row in rows:
+            row['statuses'] = {k: 'CORPORATE_ACTION_REVIEW_REQUIRED' for k in ACCOUNTS}
+        original = copy.deepcopy(rows)
+        result = audit(rows)
+        self.assertEqual([g['seconds'] for g in result['candidate_observation_gaps']],
+                         [640.759, 635.967])
+        self.assertEqual(result['invalid_news_coverage_observations'], [])
+        self.assertTrue(result['review_required'])
+        self.assertFalse(result['session_completeness_verified'])
+        self.assertEqual(rows, original)
+
     def test_valid_news_does_not_hide_corporate_review_or_quote_rejection(self):
         for status in ('CORPORATE_ACTION_REVIEW_REQUIRED', 'NO_FILL_QUOTE_UNAVAILABLE',
                        'NEWS_COVERAGE_ENTRY_BLOCKED'):

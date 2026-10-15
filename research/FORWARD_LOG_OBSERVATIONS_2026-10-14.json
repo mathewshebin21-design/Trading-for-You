@@ -1,0 +1,772 @@
+[
+  {
+    "observed_ms": 1791985145624,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "AWAITING_POST_DECISION_QUOTE",
+      "baseline:2": "AWAITING_POST_DECISION_QUOTE",
+      "news_delay:1": "AWAITING_POST_DECISION_QUOTE",
+      "news_delay:2": "AWAITING_POST_DECISION_QUOTE"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791985463599,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791985781566,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791986099558,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791986419369,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791986738876,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791987058737,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791987377758,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791987696648,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791988015577,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791988334690,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791988654628,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791988975510,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791989293552,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791989612520,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791989931569,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791990249618,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791990568557,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791990886598,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791991204676,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791991523562,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791991841642,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791992162644,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791992482516,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791992801584,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791993120565,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791993439592,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791993759543,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791994078562,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791994397611,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791994716641,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791995034661,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791995353665,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791995672614,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791995990551,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791996309845,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791996628716,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791996948743,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791997267175,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791997588744,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791997907670,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791998218805,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791998538644,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791998857590,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791999175858,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1791999816617,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792000452584,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792000770534,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792001089845,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792001408640,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792001728773,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792002046900,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792002365064,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792002682670,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792003001650,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792003321773,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792003641538,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792003959571,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792004280564,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792004599944,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792004917621,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792005236682,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792005555810,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792005873577,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792006193510,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792006513757,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792006831700,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792007149873,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792007470719,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  },
+  {
+    "observed_ms": 1792007788714,
+    "coverage_valid": true,
+    "statuses": {
+      "baseline:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "baseline:2": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:1": "CORPORATE_ACTION_REVIEW_REQUIRED",
+      "news_delay:2": "CORPORATE_ACTION_REVIEW_REQUIRED"
+    },
+    "paper_only": true
+  }
+]
