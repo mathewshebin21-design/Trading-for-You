@@ -7,7 +7,7 @@
   "hypotheses": [
     {
       "id": "LIT_H1",
-      "status": "REGISTERED_NOT_IMPLEMENTED",
+      "status": "IMPLEMENTED_OFFLINE_NOT_PROMOTED",
       "question": "Capped lagged-volatility sizing improves risk/cost behavior",
       "direction": "unchanged completed-close SMA20/100",
       "volatility_lookback_returns": 20,
@@ -24,7 +24,9 @@
       "cost_multipliers": [
         1,
         2
-      ]
+      ],
+      "implementation": "research/volatility_lab.py",
+      "evidence": "research/VOLATILITY_H1_REVIEW_2026-10-15.md"
     },
     {
       "id": "LIT_H2",
