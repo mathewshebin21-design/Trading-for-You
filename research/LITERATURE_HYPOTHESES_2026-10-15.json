@@ -1,0 +1,56 @@
+{
+  "as_of": "2026-10-15",
+  "mode": "PAPER_RESEARCH_PLAN_ONLY",
+  "strategy_validated": false,
+  "execution_enabled": false,
+  "source_scope": "Publisher material and primary research; no full-book corpus",
+  "hypotheses": [
+    {
+      "id": "LIT_H1",
+      "status": "REGISTERED_NOT_IMPLEMENTED",
+      "question": "Capped lagged-volatility sizing improves risk/cost behavior",
+      "direction": "unchanged completed-close SMA20/100",
+      "volatility_lookback_returns": 20,
+      "annualization": 252,
+      "target_annualized_volatility": 0.02,
+      "max_weight": 0.25,
+      "rebalance": "weekly; bearish/risk exits override",
+      "comparators": [
+        "fixed_sizing_sma",
+        "identical_sizing_without_trend",
+        "initial_25_percent_buyhold",
+        "cash"
+      ],
+      "cost_multipliers": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "LIT_H2",
+      "status": "REGISTERED_NOT_IMPLEMENTED",
+      "question": "Fixed weight buffer reduces turnover costs",
+      "absolute_weight_buffer": 0.05,
+      "depends_on": "LIT_H1",
+      "risk_exits_exempt": true
+    },
+    {
+      "id": "LIT_H3",
+      "status": "REGISTERED_NOT_IMPLEMENTED",
+      "question": "Five-session probability forecast improves calibration and later net trading results",
+      "horizon_sessions": 5,
+      "models": [
+        "training_base_rate",
+        "logistic_regression"
+      ],
+      "overlap_purge_required": true
+    },
+    {
+      "id": "LIT_H4",
+      "status": "BLOCKED_VALIDATED_MULTI_ASSET_DATA",
+      "question": "Diversification improves portfolio behavior after concentration limits",
+      "funded_single_portfolio_required": true
+    }
+  ],
+  "promotion": "No automatic selection or deployment; prospective thresholds still require specification"
+}
