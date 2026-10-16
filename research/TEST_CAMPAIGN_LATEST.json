@@ -1,21 +1,22 @@
 {
-  "checked_at": "2026-10-14T06:04:07.042744+00:00",
+  "checked_at": "2026-10-16T08:32:32.742553+00:00",
   "mode": "OFFLINE_FIXTURE_TESTS",
   "suites": [
     {
       "suite": "deployment",
-      "tests": 106,
+      "tests": 110,
       "passed": true,
       "returncode": 0
     },
     {
       "suite": "research",
-      "tests": 144,
+      "tests": 151,
       "passed": true,
       "returncode": 0
     }
   ],
   "source_sha256": {
+    "action_review_bootstrap.py": "c9693da9c115169e0ca20ed63e3bc3b363cde1d037befcde23737678083c7c31",
     "identify_telegram_owner.py": "81e606df0d7c2a9761f62ba77a90f0a9c31c0f008948b5650e26e5cbfc795f76",
     "news_collector.py": "761228640581186fa231e508ff171dbe2641cc678bf0853b5b04e2b695b6e370",
     "news_ledger_audit.py": "2899bae056333686a749b1f5500759380b4ba7af4946a228390b31b2e26d9093",
@@ -23,7 +24,7 @@
     "paper_backup.py": "4967daf8161353240390aaf9a69ad919391b23e22402e188328a567a128ce020",
     "prospective_lab.py": "990967a179c5ac32eb12edaa891608e27d878c1bd023062e1f03ce75947e529b",
     "prospective_paper.py": "a538d6cbd4adc499b9c48d6fb3a546e46cf68e7e957d7b9211a023c20f4b2f2d",
-    "railway_start.py": "72c5ecf5aa844eaaa9fa96dd88cca06186015ac9a89bb89bafa0db7524ff87d0",
+    "railway_start.py": "16978a1bcc17cfd954ab5009fc51ad12c1680374f7811a4a9d7a427dc0b5c119",
     "research/adjusted_history.py": "21ce3ada78c2d70992523a698ea1e07dcef54fba0221946ffe80f78111683486",
     "research/audit_forward_logs.py": "fbb802e95cb7e43faa005409091f88450c441b891400f8818091320eec6bb3a1",
     "research/build_notebook_002.py": "2bd0e2b7fdbb7447980783c14472fdb6f037f8de2745ef56a7a03dcf029fdc8d",
@@ -40,6 +41,7 @@
     "research/research_inputs.py": "2f6b33a12e8c1934b6f511128182973775b882d77af75c15be0d5fde241d219d",
     "research/research_workbench.py": "1bbb38ff39e89cea9ab8f5bd95ad4f70c2ba0d8196279aad2508fab9a696dd83",
     "research/run_paper_service.py": "a5c707d74fe93235f493516cb827278a0ca333f9bca22c26ddfb9d04ef4f49b0",
+    "research/scenario_lab.py": "913558a2bca0715968a48cd005a25bf3d6b1371134ece9bc88b0213a7700927e",
     "research/spy_campaign.py": "6c7ec0f617ff2540cfd32ec215698a48ad85550c0bfb943f6f1aa367b9bb688e",
     "research/strategy_lab.py": "28d83a6d619d9e4eac61c358acebc3544db549ef3f6d62beedb61d6cb35f93bf",
     "research/summarize_results.py": "6e1e6268dfe65b016ff8ab1b2f9b0b287163b2e7f5d34d4720e6e490b7d4abe9",
@@ -55,6 +57,7 @@
     "research/test_prospective_lab.py": "cd432502c15ccd5f0f543d687b6259b7e46afb5333af48a8f02b075838f2a7f5",
     "research/test_prospective_paper.py": "c406e65ef1669b9e1c1a1fdf0d29e32e61d906c6876fe2efa6f5aee74f038f0b",
     "research/test_research_inputs.py": "b01d243857909b4cd434d31a5c7563436699b658618ac0bfbca8ffdddb220885",
+    "research/test_scenario_lab.py": "5a777c487d47e43435ec4edea22ae320d0bbedf1e33722c5188f0cda033498c1",
     "research/test_spy_campaign.py": "c3cfae91e6260bd04a20a80b00de9ca78b28bc0a02554cede06beabfb5f98d66",
     "research/test_strategy_lab.py": "adcab992c5caee0b9df3ee0090fb7f7b7bf12b3377954b0f219d9f647ff09275",
     "research/test_telegram_paper_bot.py": "2aa2e2c867aa13d160c54c68baecb417ddcab381dfff198a09c5d3173bfe6e2e",
@@ -66,6 +69,7 @@
     "research_inputs.py": "2f6b33a12e8c1934b6f511128182973775b882d77af75c15be0d5fde241d219d",
     "scripts/run_test_campaign.py": "75b07fd39f50eb0cea666700e8dffbc2e8af0bf6f6084fb9065402940d6aeb5d",
     "telegram_paper_bot.py": "d69631652078cc94096e5d8b69c88d84eabdc241da0dbc6cdb2586c1ab394245",
+    "test_action_review_bootstrap.py": "c31df665fa382300e841092fc54b60eaac7821418448fb1cd77568e88219a39f",
     "test_news_collector.py": "0e34e6e79ec1a692882074aa8a7dcccc233c44fe0f3c25ae89badc72bcd7cd82",
     "test_news_ledger_audit.py": "15686ad6e3f9d3b09ee2aa74e216f2da08e4a435c5d2e7ff0241441b1306a30e",
     "test_news_paper_lab.py": "067b7e0e029d18fdbe8c36b2ba2c784f90f4c9a3ad9808765f311c8b3328ef9d",
