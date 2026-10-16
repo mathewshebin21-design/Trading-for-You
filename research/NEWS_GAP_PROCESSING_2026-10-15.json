@@ -1,0 +1,110 @@
+[
+  {
+    "observed_ms": 1792083289547,
+    "status": "RESEARCH_ONLY",
+    "coverage": "COMPLETE_DELAYED_WINDOW",
+    "execution_enabled": false
+  },
+  {
+    "observed_ms": 1792083618173,
+    "status": "RESEARCH_ONLY",
+    "coverage": "COMPLETE_DELAYED_WINDOW",
+    "execution_enabled": false
+  },
+  {
+    "observed_ms": 1792083945325,
+    "status": "RESEARCH_ONLY",
+    "coverage": "COMPLETE_DELAYED_WINDOW",
+    "execution_enabled": false
+  },
+  {
+    "observed_ms": 1792084272370,
+    "status": "RESEARCH_ONLY",
+    "coverage": "COMPLETE_DELAYED_WINDOW",
+    "execution_enabled": false
+  },
+  {
+    "observed_ms": 1792084598072,
+    "status": "RESEARCH_ONLY",
+    "coverage": "COMPLETE_DELAYED_WINDOW",
+    "execution_enabled": false
+  },
+  {
+    "observed_ms": 1792084923970,
+    "status": "RESEARCH_ONLY",
+    "coverage": "COMPLETE_DELAYED_WINDOW",
+    "execution_enabled": false
+  },
+  {
+    "observed_ms": 1792085250722,
+    "status": "RESEARCH_ONLY",
+    "coverage": "COMPLETE_DELAYED_WINDOW",
+    "execution_enabled": false
+  },
+  {
+    "observed_ms": 1792085576892,
+    "status": "RESEARCH_ONLY",
+    "coverage": "COMPLETE_DELAYED_WINDOW",
+    "execution_enabled": false
+  },
+  {
+    "observed_ms": 1792085902635,
+    "status": "RESEARCH_ONLY",
+    "coverage": "COMPLETE_DELAYED_WINDOW",
+    "execution_enabled": false
+  },
+  {
+    "observed_ms": 1792086230689,
+    "status": "RESEARCH_ONLY",
+    "coverage": "COMPLETE_DELAYED_WINDOW",
+    "execution_enabled": false
+  },
+  {
+    "observed_ms": 1792086556663,
+    "status": "RESEARCH_ONLY",
+    "coverage": "COMPLETE_DELAYED_WINDOW",
+    "execution_enabled": false
+  },
+  {
+    "observed_ms": 1792086882604,
+    "status": "RESEARCH_ONLY",
+    "coverage": "COMPLETE_DELAYED_WINDOW",
+    "execution_enabled": false
+  },
+  {
+    "observed_ms": 1792087210177,
+    "status": "RESEARCH_ONLY",
+    "coverage": "COMPLETE_DELAYED_WINDOW",
+    "execution_enabled": false
+  },
+  {
+    "observed_ms": 1792087539021,
+    "status": "RESEARCH_ONLY",
+    "coverage": "COMPLETE_DELAYED_WINDOW",
+    "execution_enabled": false
+  },
+  {
+    "observed_ms": 1792087865951,
+    "status": "RESEARCH_ONLY",
+    "coverage": "COMPLETE_DELAYED_WINDOW",
+    "execution_enabled": false
+  },
+  {
+    "observed_ms": 1792088177383,
+    "status": "RESEARCH_ONLY",
+    "coverage": "COMPLETE_DELAYED_WINDOW",
+    "execution_enabled": false
+  },
+  {
+    "observed_ms": 1792088495890,
+    "status": "RESEARCH_ONLY",
+    "coverage": "COMPLETE_DELAYED_WINDOW",
+    "execution_enabled": false
+  },
+  {
+    "observed_ms": 1792088816070,
+    "status": "RESEARCH_ONLY",
+    "coverage": "COMPLETE_DELAYED_WINDOW",
+    "execution_enabled": false
+  }
+]
