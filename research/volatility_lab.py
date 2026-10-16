@@ -19,7 +19,10 @@ def weight(closes):
     values = closes[-21:]
     if any(not math.isfinite(v) or v <= 0 for v in values):
         return None
-    vol = statistics.stdev([b / a - 1 for a, b in zip(values, values[1:])]) * math.sqrt(252)
+    returns = [b / a - 1 for a, b in zip(values, values[1:])]
+    if any(not math.isfinite(value) for value in returns):
+        return None
+    vol = statistics.stdev(returns) * math.sqrt(252)
     return min(.25, .02 / vol) if vol > 0 and math.isfinite(vol) else None
 
 

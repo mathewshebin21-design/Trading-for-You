@@ -20,6 +20,18 @@ def ready():
 
 
 class VolatilityTests(unittest.TestCase):
+    def test_overflowing_returns_abstain_and_exit_existing_position(self):
+        # Individually finite prices can produce infinite ratios. statistics
+        # otherwise raises AttributeError instead of reaching the abstention.
+        prices = [1e308, 1e-308] * 11
+        self.assertIsNone(weight(prices))
+        a=ready();a.rebalance(.25,100,'2026-03-06','fixture')
+        a.closes=prices;a.target=True
+        a.step(bar('2026-03-10'))  # Exit must not wait for the weekly schedule.
+        self.assertEqual(a.units,0)
+        self.assertEqual(a.ledger[-1]['side'],'SELL')
+        self.assertGreaterEqual(a.cash,0)
+
     def test_weight_formula_and_invalid_inputs(self):
         closes = [100 * (1.01 ** (i % 2)) for i in range(21)]
         import statistics
