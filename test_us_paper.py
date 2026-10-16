@@ -8,9 +8,47 @@ import unittest
 import urllib.error
 from unittest.mock import patch, AsyncMock
 from us_paper import ET, account, fill, get_data, poll_us, quote, sessions, signal, market_session, preserve_decision, fresh_quote, QuoteUnavailable
-from us_paper import track_quality
+from us_paper import track_quality, log_cycle_health
 
 class USTests(unittest.TestCase):
+    def test_review_blocks_and_unknown_outcomes_are_not_valid_quote_cycles(self):
+        with tempfile.TemporaryDirectory() as folder:
+            rows=[{'symbol':'AAPL','status':'CORPORATE_ACTION_REVIEW_REQUIRED'},
+                  {'symbol':'SPY','status':'UNEXPECTED_OUTCOME'}]
+            track_quality(folder,rows,self.time)
+            counts=json.loads((Path(folder)/'quote_quality.json').read_text())['2026-10-08']
+            self.assertEqual(counts['AAPL'],{'CORPORATE_ACTION_REVIEW_REQUIRED':1})
+            self.assertEqual(counts['SPY'],{'UNCLASSIFIED_CYCLE':1})
+
+    def test_cycle_log_whitelists_fields_and_preserves_inputs(self):
+        import copy
+        rows=[{'symbol':'AAPL','status':'NO_FILL_QUOTE_UNAVAILABLE',
+               'reason':'QUOTE_SPREAD_TOO_WIDE','quote_validated':False,'cash':1234,
+               'error':'secret_private_token','url':'https://private.example/token'},
+              {'symbol':'GLD','status':'SECRET_STATUS','reason':'SECRET_REASON'}]
+        before=copy.deepcopy(rows)
+        with patch('builtins.print') as output:log_cycle_health(rows,self.time)
+        line=output.call_args.args[0]
+        for forbidden in ('secret_private_token','private.example','1234','SECRET_STATUS','SECRET_REASON'):
+            self.assertNotIn(forbidden,line)
+        payload=json.loads(line.split(' ',1)[1])
+        self.assertEqual(payload['records'][0]['reason'],'QUOTE_SPREAD_TOO_WIDE')
+        self.assertEqual(payload['records'][1]['status'],'UNKNOWN_STATUS')
+        self.assertEqual(rows,before)
+        with patch('builtins.print',side_effect=OSError('private logger failure')):
+            log_cycle_health(rows,self.time)
+
+    def test_poll_records_prequote_failures_without_claiming_quote_validation(self):
+        def data(path,params):
+            if path=='/v2/calendar':return self.calendar
+            raise RuntimeError('secret_private_token')
+        with tempfile.TemporaryDirectory() as folder,patch.dict(os.environ,{'US_PAPER_ENABLED':'1'}),patch('us_paper.get_data',side_effect=data),patch('us_paper.now_ms',return_value=self.time),patch('builtins.print') as output:
+            result=asyncio.run(poll_us(folder))
+        self.assertTrue(all(r['quote_validated'] is False for r in result if r['symbol'] in ('SPY','AAPL','GLD')))
+        line=next(c.args[0] for c in output.call_args_list if c.args[0].startswith('US_CYCLE_HEALTH '))
+        self.assertIn('HISTORY_FETCH',line)
+        self.assertNotIn('secret_private_token',line)
+
     def setUp(self):
         self.calendar=[{'date':'2026-10-08','open':'09:30','close':'16:00'}]
         self.time=int(datetime(2026,10,8,10,tzinfo=ET).timestamp()*1000)
@@ -108,6 +146,8 @@ class USTests(unittest.TestCase):
             with patch.dict(os.environ,{'US_PAPER_ENABLED':'1'}),patch('us_paper.get_data',side_effect=data),patch('us_paper.now_ms',return_value=self.time),patch('us_paper.signal',side_effect=lambda *args:{**sig,'observed_ms':self.time}):
                 first=asyncio.run(poll_us(folder));second=asyncio.run(poll_us(folder))
             self.assertEqual(first[1]['status'],'SIMULATED_BUY')
+            self.assertTrue(first[1]['quote_validated'])
+            self.assertFalse(first[1]['action_review_present'])
             self.assertEqual(second[1]['status'],'NO_ACTION')
             restored=json.loads((Path(folder)/'SPY_state.json').read_text())
             self.assertEqual(restored['signal']['observed_ms'],sig['observed_ms'])
