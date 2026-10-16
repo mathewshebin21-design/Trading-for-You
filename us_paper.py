@@ -19,6 +19,44 @@ from prospective_lab import observe as observe_lab
 SYMBOLS = ('SPY', 'AAPL', 'GLD')
 ET = ZoneInfo('America/New_York')
 
+HEALTH_STATUSES = {'NO_ACTION', 'SIMULATED_BUY', 'SIMULATED_SELL', 'ENTRY_PAUSED',
+    'REJECTED_SIZE', 'MARKET_CLOSED', 'CORPORATE_ACTION_REVIEW_REQUIRED',
+    'NO_FILL_QUOTE_UNAVAILABLE', 'NO_FILL_DATA_ERROR', 'NO_FILL_LAB_ERROR'}
+HEALTH_REASONS = {'ACCOUNT_STATE', 'HISTORY_FETCH', 'HISTORY_VALIDATION', 'STATE_WRITE',
+    'CORPORATE_ACTION_RECONCILIATION', 'QUOTE_FETCH_OR_VALIDATION', 'FILL_VALIDATION',
+    'QUOTE_AUTH_FAILED', 'QUOTE_BEFORE_DECISION', 'QUOTE_CROSSED', 'QUOTE_FEED_FORBIDDEN',
+    'QUOTE_FUTURE', 'QUOTE_HTTP_ERROR', 'QUOTE_MALFORMED', 'QUOTE_MISSING',
+    'QUOTE_NETWORK_ERROR', 'QUOTE_NONFINITE', 'QUOTE_NO_LIQUIDITY',
+    'QUOTE_PROVIDER_UNAVAILABLE', 'QUOTE_RATE_LIMITED', 'QUOTE_RESPONSE_INVALID',
+    'QUOTE_SPREAD_TOO_WIDE', 'QUOTE_STALE', 'ACTION_COVERAGE_INCOMPLETE',
+    'ACTION_REVIEW_MISSING', 'ACTION_REVIEW_TIME_INVALID', 'ACTION_FUTURE_COVERAGE_REJECTED',
+    'ACTION_RECORD_REMOVED', 'ACTION_LATE_REQUIRES_REPLAY', 'ACTION_MANIFEST_INVALID',
+    'ACTION_SOURCE_INVALID', 'ACTION_IDENTITY_MISMATCH', 'ACTION_DUPLICATE_ID',
+    'ACTION_INVALID_DIVIDEND', 'ACTION_INVALID_RATIO', 'ACTION_UNSUPPORTED',
+    'ACTION_REVISION_REQUIRES_REPLAY', 'ACTION_SAME_DAY_ORDER_REVIEW',
+    'ACTION_FRACTIONAL_CASH_IN_LIEU_REVIEW', 'LEDGER_BALANCE_MISMATCH',
+    'LEDGER_NEGATIVE_BALANCE', 'LEDGER_EVENT_INVALID', 'LEDGER_FILL_INVALID'}
+
+
+def log_cycle_health(results, observed):
+    """Whitelist-only diagnostics. Never copy balances, quotes or provider text."""
+    records = []
+    for result in results:
+        symbol = result.get('symbol')
+        if symbol not in SYMBOLS + ('US', 'AAPL_NEWS_LAB', 'SPY_LAB', 'AAPL_LAB', 'GLD_LAB'):
+            continue
+        records.append({'symbol': symbol,
+            'status': result.get('status') if result.get('status') in HEALTH_STATUSES else 'UNKNOWN_STATUS',
+            'reason': result.get('reason') if result.get('reason') in HEALTH_REASONS else 'UNSPECIFIED',
+            'quote_validated': result.get('quote_validated') is True,
+            'action_review_present': result.get('action_review_present')
+                if type(result.get('action_review_present')) is bool else None})
+    try:
+        print('US_CYCLE_HEALTH '+json.dumps({'observed_ms': observed, 'paper_only': True,
+              'records': records}, allow_nan=False), flush=True)
+    except (OSError, ValueError):
+        pass  # Logging cannot alter account handling or trigger a retry.
+
 
 class QuoteUnavailable(ValueError):
     """A fixed public reason code; never provider text or credentials."""
@@ -233,10 +271,14 @@ async def poll_us(folder, allow_entry=True):
         # Validate calendar before processing accounts, including closed days.
         results.append(market_session(calendar, now_ms()))
     except Exception:
-        return [{'symbol':'US','status':'NO_FILL_DATA_ERROR','error':'US calendar/credentials unavailable'}]
+        failure = [{'symbol':'US','status':'NO_FILL_DATA_ERROR','error':'US calendar/credentials unavailable'}]
+        log_cycle_health(failure, now_ms())
+        return failure
     for symbol in SYMBOLS:
         path = folder/(symbol+'_state.json')
         stage = 'ACCOUNT_STATE'
+        quote_validated = False
+        action_review_present = None
         try:
             state = json.loads(path.read_text()) if path.exists() else account(symbol)
             if state['symbol'] != symbol or state['version'] != 'US.1' or state['currency'] != 'USD':
@@ -256,11 +298,13 @@ async def poll_us(folder, allow_entry=True):
                 outcome = 'MARKET_CLOSED'
             else:
                 review_path = folder/'action_reviews'/(symbol+'.json')
-                if review_path.exists():
+                action_review_present = review_path.exists()
+                if action_review_present:
                     stage = 'CORPORATE_ACTION_RECONCILIATION'
                     state = reconcile(state,json.loads(review_path.read_text()),today.isoformat(),now_ms())
                 stage = 'QUOTE_FETCH_OR_VALIDATION'
                 q, observed = await fresh_quote(symbol, state['signal']['observed_ms'])
+                quote_validated = True
                 stage = 'FILL_VALIDATION'
                 outcome = fill(state, q, calendar, observed, allow_entry)
                 stage = 'STATE_WRITE'
@@ -298,9 +342,12 @@ async def poll_us(folder, allow_entry=True):
             # Never include provider exceptions, request headers or credentials.
             results.append({'symbol':symbol,'status':'NO_FILL_DATA_ERROR',
                             'reason':stage,'error':'US '+stage.lower().replace('_',' ')+' failed'})
+        results[-1]['quote_validated'] = quote_validated
+        results[-1]['action_review_present'] = action_review_present
     track_quality(folder, results, now_ms())
     results.extend(lab_errors)
     save_state(folder/'latest_poll.json', results)
+    log_cycle_health(results, now_ms())
     return results
 
 
@@ -323,6 +370,10 @@ def track_quality(folder, results, observed):
             category = result['reason']
         elif status == 'NO_FILL_DATA_ERROR':
             category = 'DATA_ERROR'
+        elif status == 'CORPORATE_ACTION_REVIEW_REQUIRED':
+            category = 'CORPORATE_ACTION_REVIEW_REQUIRED'
+        elif status not in {'NO_ACTION', 'SIMULATED_BUY', 'SIMULATED_SELL', 'ENTRY_PAUSED', 'REJECTED_SIZE'}:
+            category = 'UNCLASSIFIED_CYCLE'
         else:
             category = 'VALID_QUOTE_CYCLE'
         counts = today.setdefault(symbol, {})
@@ -352,6 +403,7 @@ def report_us(folder):
     quality_path = Path(folder)/'quote_quality.json'
     if quality_path.exists():
         quality = json.loads(quality_path.read_text())
+        lines.append('Legacy quality counts may include review-blocked cycles; historical counts are not reclassified.')
         today = datetime.fromtimestamp(now_ms()/1000, ET).date().isoformat()
         for symbol, counts in quality.get(today, {}).items():
             total = sum(counts.values())

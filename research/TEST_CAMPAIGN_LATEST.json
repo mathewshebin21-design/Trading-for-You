@@ -1,21 +1,22 @@
 {
-  "checked_at": "2026-10-14T06:04:07.042744+00:00",
+  "checked_at": "2026-10-16T07:49:18.104199+00:00",
   "mode": "OFFLINE_FIXTURE_TESTS",
   "suites": [
     {
       "suite": "deployment",
-      "tests": 106,
+      "tests": 113,
       "passed": true,
       "returncode": 0
     },
     {
       "suite": "research",
-      "tests": 144,
+      "tests": 147,
       "passed": true,
       "returncode": 0
     }
   ],
   "source_sha256": {
+    "action_review_bootstrap.py": "c9693da9c115169e0ca20ed63e3bc3b363cde1d037befcde23737678083c7c31",
     "identify_telegram_owner.py": "81e606df0d7c2a9761f62ba77a90f0a9c31c0f008948b5650e26e5cbfc795f76",
     "news_collector.py": "761228640581186fa231e508ff171dbe2641cc678bf0853b5b04e2b695b6e370",
     "news_ledger_audit.py": "2899bae056333686a749b1f5500759380b4ba7af4946a228390b31b2e26d9093",
@@ -23,7 +24,7 @@
     "paper_backup.py": "4967daf8161353240390aaf9a69ad919391b23e22402e188328a567a128ce020",
     "prospective_lab.py": "990967a179c5ac32eb12edaa891608e27d878c1bd023062e1f03ce75947e529b",
     "prospective_paper.py": "a538d6cbd4adc499b9c48d6fb3a546e46cf68e7e957d7b9211a023c20f4b2f2d",
-    "railway_start.py": "72c5ecf5aa844eaaa9fa96dd88cca06186015ac9a89bb89bafa0db7524ff87d0",
+    "railway_start.py": "16978a1bcc17cfd954ab5009fc51ad12c1680374f7811a4a9d7a427dc0b5c119",
     "research/adjusted_history.py": "21ce3ada78c2d70992523a698ea1e07dcef54fba0221946ffe80f78111683486",
     "research/audit_forward_logs.py": "fbb802e95cb7e43faa005409091f88450c441b891400f8818091320eec6bb3a1",
     "research/build_notebook_002.py": "2bd0e2b7fdbb7447980783c14472fdb6f037f8de2745ef56a7a03dcf029fdc8d",
@@ -59,13 +60,14 @@
     "research/test_strategy_lab.py": "adcab992c5caee0b9df3ee0090fb7f7b7bf12b3377954b0f219d9f647ff09275",
     "research/test_telegram_paper_bot.py": "2aa2e2c867aa13d160c54c68baecb417ddcab381dfff198a09c5d3173bfe6e2e",
     "research/test_us_accounting.py": "170fea09b956daeafb5a6fcdbfadd372daea88e34da18d369b49579c5e128cb2",
-    "research/test_us_paper.py": "593d533e313300b15cfaa42c5290d420af901c7302951cd2a7ec094c3a9b8dff",
+    "research/test_us_paper.py": "887e557bae5526a3b1f2ad38e82ba64dc720dd2e247cf41a96f44460d7f8a48c",
     "research/us_accounting.py": "6892039b2f90db4b9021b579b817c7c2aff27028bd20b7310b71cfdb0a83ba2e",
-    "research/us_paper.py": "1324933240c4f9111431a4500e7fbfa04b6cabcac4b50868dc8ae83003262411",
+    "research/us_paper.py": "dce9befd0983fecda7b2229c4a8dea6aaa94a17c457b5e9ca139484babf2d1da",
     "research/vibe_offline.py": "06f56865328b6bd8ec9bd4dd5ccbfd5f0a2b0f291bdc886b530f25a6527993f4",
     "research_inputs.py": "2f6b33a12e8c1934b6f511128182973775b882d77af75c15be0d5fde241d219d",
     "scripts/run_test_campaign.py": "75b07fd39f50eb0cea666700e8dffbc2e8af0bf6f6084fb9065402940d6aeb5d",
     "telegram_paper_bot.py": "d69631652078cc94096e5d8b69c88d84eabdc241da0dbc6cdb2586c1ab394245",
+    "test_action_review_bootstrap.py": "c31df665fa382300e841092fc54b60eaac7821418448fb1cd77568e88219a39f",
     "test_news_collector.py": "0e34e6e79ec1a692882074aa8a7dcccc233c44fe0f3c25ae89badc72bcd7cd82",
     "test_news_ledger_audit.py": "15686ad6e3f9d3b09ee2aa74e216f2da08e4a435c5d2e7ff0241441b1306a30e",
     "test_news_paper_lab.py": "067b7e0e029d18fdbe8c36b2ba2c784f90f4c9a3ad9808765f311c8b3328ef9d",
@@ -75,9 +77,9 @@
     "test_research_inputs.py": "b01d243857909b4cd434d31a5c7563436699b658618ac0bfbca8ffdddb220885",
     "test_telegram_paper_bot.py": "2aa2e2c867aa13d160c54c68baecb417ddcab381dfff198a09c5d3173bfe6e2e",
     "test_us_accounting.py": "170fea09b956daeafb5a6fcdbfadd372daea88e34da18d369b49579c5e128cb2",
-    "test_us_paper.py": "593d533e313300b15cfaa42c5290d420af901c7302951cd2a7ec094c3a9b8dff",
+    "test_us_paper.py": "887e557bae5526a3b1f2ad38e82ba64dc720dd2e247cf41a96f44460d7f8a48c",
     "us_accounting.py": "6892039b2f90db4b9021b579b817c7c2aff27028bd20b7310b71cfdb0a83ba2e",
-    "us_paper.py": "1324933240c4f9111431a4500e7fbfa04b6cabcac4b50868dc8ae83003262411"
+    "us_paper.py": "dce9befd0983fecda7b2229c4a8dea6aaa94a17c457b5e9ca139484babf2d1da"
   },
   "strategy_validated": false,
   "limitations": "Passing tests verify fixture behavior, not production uptime or trading edge."
