@@ -1,0 +1,71 @@
+{
+  "mode": "PAPER_LOG_AUDIT_ONLY",
+  "observations": 73,
+  "first_observed_ms": 1792157672774,
+  "last_observed_ms": 1792180574552,
+  "invalid_news_coverage_observations": [],
+  "candidate_observation_gaps": [],
+  "status_counts": {
+    "baseline:1": {
+      "AWAITING_POST_DECISION_QUOTE": 1,
+      "CORPORATE_ACTION_REVIEW_REQUIRED": 72
+    },
+    "baseline:2": {
+      "AWAITING_POST_DECISION_QUOTE": 1,
+      "CORPORATE_ACTION_REVIEW_REQUIRED": 72
+    },
+    "news_delay:1": {
+      "AWAITING_POST_DECISION_QUOTE": 1,
+      "CORPORATE_ACTION_REVIEW_REQUIRED": 72
+    },
+    "news_delay:2": {
+      "AWAITING_POST_DECISION_QUOTE": 1,
+      "CORPORATE_ACTION_REVIEW_REQUIRED": 72
+    }
+  },
+  "session_completeness_verified": false,
+  "ledger_reconciled": false,
+  "strategy_validated": false,
+  "blocked_status_counts": {
+    "baseline:1": {
+      "CORPORATE_ACTION_REVIEW_REQUIRED": 72
+    },
+    "baseline:2": {
+      "CORPORATE_ACTION_REVIEW_REQUIRED": 72
+    },
+    "news_delay:1": {
+      "CORPORATE_ACTION_REVIEW_REQUIRED": 72
+    },
+    "news_delay:2": {
+      "CORPORATE_ACTION_REVIEW_REQUIRED": 72
+    }
+  },
+  "waiting_status_counts": {
+    "baseline:1": {
+      "AWAITING_POST_DECISION_QUOTE": 1
+    },
+    "baseline:2": {
+      "AWAITING_POST_DECISION_QUOTE": 1
+    },
+    "news_delay:1": {
+      "AWAITING_POST_DECISION_QUOTE": 1
+    },
+    "news_delay:2": {
+      "AWAITING_POST_DECISION_QUOTE": 1
+    }
+  },
+  "unknown_status_counts": {
+    "baseline:1": {},
+    "baseline:2": {},
+    "news_delay:1": {},
+    "news_delay:2": {}
+  },
+  "review_required": true,
+  "limitations": [
+    "Bounded logs may omit observations; gaps require persisted-ledger review.",
+    "News coverage is not full quote or session coverage.",
+    "No session calendar, balances, quotes or corporate-action records are certified.",
+    "No P/L, trade count or winner can be inferred from health statuses."
+  ],
+  "input_sha256": "4ca4bc7ad1ac1a50b37561846d3eb82e52058c7bb853be22b72203ffa07f9d3d"
+}
