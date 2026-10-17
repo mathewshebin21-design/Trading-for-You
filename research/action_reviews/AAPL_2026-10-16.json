@@ -1,0 +1,15 @@
+{
+  "symbol": "AAPL",
+  "currency": "USD",
+  "reviewed": true,
+  "reviewer": "Codex issuer-source review 2026-10-17",
+  "reviewed_ms": 1792212993000,
+  "source_urls": [
+    "https://investor.apple.com/dividend-history/default.aspx",
+    "https://investor.apple.com/faq/default.aspx"
+  ],
+  "coverage_start": "2026-10-08",
+  "coverage_end": "2026-10-16",
+  "actions": [],
+  "review_scope": "Retrospective ordinary cash dividend and stock split review for October 8–16 only. Issuer dividend history and split FAQ list no such event in this interval as inspected October 17. Does not certify unsupported corporate actions, private journals, complete sessions or future dates. Candidate for copied-state validation, not installed or wired to startup."
+}
