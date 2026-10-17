@@ -11,6 +11,29 @@ def records():
 
 
 class AuditTests(unittest.TestCase):
+    def test_delay_pause_and_size_rejection_require_review(self):
+        for status in ('NEWS_DELAY_ENTRY_BLOCKED', 'ENTRY_PAUSED', 'REJECTED_SIZE'):
+            rows = records()
+            rows[1]['statuses']['news_delay:1'] = status
+            result = audit(rows)
+            self.assertTrue(result['review_required'])
+            self.assertEqual(result['blocked_status_counts']['news_delay:1'], {status: 1})
+
+    def test_unknown_status_cannot_silently_look_clean(self):
+        rows = records()
+        rows[1]['statuses']['baseline:2'] = 'UNRECOGNIZED_NEW_STATUS'
+        result = audit(rows)
+        self.assertTrue(result['review_required'])
+        self.assertEqual(result['unknown_status_counts']['baseline:2'], {'UNRECOGNIZED_NEW_STATUS': 1})
+
+    def test_initial_wait_is_visible_but_not_a_fill_or_block(self):
+        rows = records()
+        rows[0]['statuses']['baseline:1'] = 'AWAITING_POST_DECISION_QUOTE'
+        result = audit(rows)
+        self.assertFalse(result['review_required'])
+        self.assertEqual(result['waiting_status_counts']['baseline:1'], {'AWAITING_POST_DECISION_QUOTE': 1})
+        self.assertFalse(result['session_completeness_verified'])
+
     def test_valid_news_does_not_hide_corporate_review_or_quote_rejection(self):
         for status in ('CORPORATE_ACTION_REVIEW_REQUIRED', 'NO_FILL_QUOTE_UNAVAILABLE',
                        'NEWS_COVERAGE_ENTRY_BLOCKED'):
