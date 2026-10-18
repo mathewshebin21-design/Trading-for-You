@@ -1,10 +1,10 @@
 {
-  "checked_at": "2026-10-17T04:57:30.742468+00:00",
+  "checked_at": "2026-10-18T03:17:37.858725+00:00",
   "mode": "OFFLINE_FIXTURE_TESTS",
   "suites": [
     {
       "suite": "deployment",
-      "tests": 115,
+      "tests": 116,
       "passed": true,
       "returncode": 0
     },
@@ -16,7 +16,7 @@
     }
   ],
   "source_sha256": {
-    "aapl_review_check.py": "4f9ca51411f4261e94da4923ee6994d757988160b7323c0685be1a3cfe715bef",
+    "aapl_review_check.py": "45c7fe348b8afb55b3e5afed29f71671451db69968f9d5eba77125763737afba",
     "action_review_bootstrap.py": "c9693da9c115169e0ca20ed63e3bc3b363cde1d037befcde23737678083c7c31",
     "identify_telegram_owner.py": "81e606df0d7c2a9761f62ba77a90f0a9c31c0f008948b5650e26e5cbfc795f76",
     "news_collector.py": "761228640581186fa231e508ff171dbe2641cc678bf0853b5b04e2b695b6e370",
@@ -68,7 +68,7 @@
     "research_inputs.py": "2f6b33a12e8c1934b6f511128182973775b882d77af75c15be0d5fde241d219d",
     "scripts/run_test_campaign.py": "75b07fd39f50eb0cea666700e8dffbc2e8af0bf6f6084fb9065402940d6aeb5d",
     "telegram_paper_bot.py": "d69631652078cc94096e5d8b69c88d84eabdc241da0dbc6cdb2586c1ab394245",
-    "test_aapl_review_check.py": "76d58de24b6572846c725e73f3e0bfe07c93a141072ba1070a851011732ed102",
+    "test_aapl_review_check.py": "7e85b196f9f77d3853ec7cec6869f5b24c0e2953a4282d1400290d9a7f93b360",
     "test_action_review_bootstrap.py": "c31df665fa382300e841092fc54b60eaac7821418448fb1cd77568e88219a39f",
     "test_news_collector.py": "0e34e6e79ec1a692882074aa8a7dcccc233c44fe0f3c25ae89badc72bcd7cd82",
     "test_news_ledger_audit.py": "15686ad6e3f9d3b09ee2aa74e216f2da08e4a435c5d2e7ff0241441b1306a30e",

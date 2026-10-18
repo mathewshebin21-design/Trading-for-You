@@ -12,6 +12,19 @@ NOW = 1792212993000
 
 
 class ReviewCheckTests(unittest.TestCase):
+    def test_original_identity_mismatch_cannot_pass_usd_review(self):
+        for field, value in (('currency', 'EUR'), ('symbol', 'SPY'), ('version', 'US.2')):
+            with self.subTest(field=field), tempfile.TemporaryDirectory() as folder:
+                root = self.prepare(folder)
+                path = root/'AAPL_state.json'
+                state = json.loads(path.read_text());state[field] = value
+                path.write_text(json.dumps(state));before = path.read_bytes()
+                result = check(folder, REVIEW, '2026-10-16', NOW)
+                self.assertEqual(result['accounts']['original'], 'IDENTITY_OR_RULES_MISMATCH')
+                self.assertFalse(result['all_required_accounts_present'])
+                self.assertFalse(result['all_copied_reconciliations_passed'])
+                self.assertEqual(path.read_bytes(), before)
+
     def prepare(self, folder):
         state, _ = fixture()
         state['coverage_gaps'] = 3

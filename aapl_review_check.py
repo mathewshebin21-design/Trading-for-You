@@ -53,9 +53,10 @@ def check(root, review, day, observed):
     candidates = {}
     try:
         original = read_json(folder/'AAPL_state.json')
-        if original.get('version') != 'US.1':
-            raise ValueError('Invalid version')
-        candidates['original'] = original
+        if (original.get('version'), original.get('symbol'), original.get('currency')) != ('US.1', 'AAPL', 'USD'):
+            results['original'] = 'IDENTITY_OR_RULES_MISMATCH'
+        else:
+            candidates['original'] = original
     except FileNotFoundError:
         results['original'] = 'MISSING'
     except (OSError, ValueError, TypeError, AttributeError, UnicodeError):
@@ -81,7 +82,7 @@ def check(root, review, day, observed):
         except (TypeError, KeyError, ValueError, OverflowError, AttributeError):
             results[name] = 'REVIEW_FAILED'
     required = {'original'} | KEYS
-    result['all_required_accounts_present'] = required <= results.keys() and 'news_lab' not in results and results.get('original') not in {'MISSING', 'UNREADABLE_OR_INVALID'}
+    result['all_required_accounts_present'] = required <= results.keys() and 'news_lab' not in results and results.get('original') not in {'MISSING', 'UNREADABLE_OR_INVALID', 'IDENTITY_OR_RULES_MISMATCH'}
     result['all_copied_reconciliations_passed'] = (
         result['all_required_accounts_present'] and
         all(results[key] == 'COPIED_RECONCILIATION_PASS' for key in required))
