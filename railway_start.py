@@ -17,11 +17,12 @@ if __name__=='__main__':
     os.environ['PAPER_STATE_DIR']=str(state)
     os.environ.setdefault('PAPER_POLL_SECONDS','300')
     # One dated source-reviewed recovery; no account or historical validity edits.
-    from action_review_bootstrap import install
+    from review_install import run
     import time
     try:
-        result=install(state,'/app/AAPL_review_2026-10-14.json',int(time.time()*1000))
-        print('ACTION_REVIEW_BOOTSTRAP '+result,flush=True)
+        source=os.environ.get('PAPER_ACTION_REVIEW_SOURCE','/app/AAPL_review_2026-10-21.json')
+        result=run(state,source,int(time.time()*1000),install=True)
+        print('ACTION_REVIEW_BOOTSTRAP',result,flush=True)
     except Exception as error:
         from us_accounting import ReviewRequired
         allowed={'ACTION_COVERAGE_INCOMPLETE','ACTION_REVIEW_MISSING',
