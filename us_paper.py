@@ -323,6 +323,10 @@ def track_quality(folder, results, observed):
             category = result['reason']
         elif status == 'NO_FILL_DATA_ERROR':
             category = 'DATA_ERROR'
+        elif status == 'CORPORATE_ACTION_REVIEW_REQUIRED':
+            category = 'CORPORATE_ACTION_REVIEW_REQUIRED'
+        elif status not in ('NO_ACTION','SIMULATED_BUY','SIMULATED_SELL','ENTRY_PAUSED','REJECTED_SIZE'):
+            category = 'UNCLASSIFIED_CYCLE'
         else:
             category = 'VALID_QUOTE_CYCLE'
         counts = today.setdefault(symbol, {})
@@ -348,7 +352,10 @@ def report_us(folder):
             spread = 100*(q['ask']-q['bid'])/q['bid']
             lines.append(f"Saved quote event age {age:.0f}s{' STALE' if age > 5 else ''}; spread {spread:.3f}%; indicative only.")
             equity=s['cash']+s['units']*q['bid']+receivable_value(s)
-            lines.append(f"Indicative equity ${equity:.2f}; net P/L ${equity-10000:.2f}; commissions ${sum(t['commission'] for t in s['ledger']):.2f}; dividend receivable ${receivable_value(s):.2f}")
+            if s['review_required'] or age > 5:
+                lines.append('Current equity/P&L unavailable: accounting review or stale saved quote.')
+            else:
+                lines.append(f"Indicative equity ${equity:.2f}; net P/L ${equity-10000:.2f}; commissions ${sum(t['commission'] for t in s['ledger']):.2f}; dividend receivable ${receivable_value(s):.2f}")
     quality_path = Path(folder)/'quote_quality.json'
     if quality_path.exists():
         quality = json.loads(quality_path.read_text())
@@ -357,7 +364,7 @@ def report_us(folder):
             total = sum(counts.values())
             valid = counts.get('VALID_QUOTE_CYCLE', 0)
             failures = ', '.join(f'{k}={v}' for k,v in sorted(counts.items()) if k != 'VALID_QUOTE_CYCLE')
-            lines.append(f"{symbol} today: {valid}/{total} valid quote cycles" + ('; '+failures if failures else ''))
+            lines.append(f"{symbol} today: {valid}/{total} recorded valid quote cycles (legacy counts may include review blocks)" + ('; '+failures if failures else ''))
     latest = Path(folder)/'latest_poll.json'
     if latest.exists():
         lines.extend(r['symbol']+': '+r['status']+(' ('+r['reason']+')' if r.get('reason') else '') for r in json.loads(latest.read_text()))

@@ -1,0 +1,15 @@
+{
+  "symbol": "AAPL",
+  "currency": "USD",
+  "reviewed": true,
+  "reviewer": "Codex issuer-source review 2026-10-21 UTC / 2026-10-20 New York",
+  "reviewed_ms": 1792552468000,
+  "source_urls": [
+    "https://investor.apple.com/dividend-history/default.aspx",
+    "https://investor.apple.com/faq/default.aspx"
+  ],
+  "coverage_start": "2026-10-08",
+  "coverage_end": "2026-10-20",
+  "actions": [],
+  "review_scope": "Ordinary cash dividends and stock splits only, based on Apple issuer histories retrieved 2026-10-21 UTC. No listed ordinary dividend or split in October 8–20. Does not certify unsupported actions, future sessions, account balances, or prior comparison validity. Must be refreshed after the New York date changes."
+}
