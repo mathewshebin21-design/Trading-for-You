@@ -1,10 +1,10 @@
 {
-  "checked_at": "2026-10-21T03:17:52.213334+00:00",
+  "checked_at": "2026-10-21T03:23:36.274116+00:00",
   "mode": "OFFLINE_FIXTURE_TESTS",
   "suites": [
     {
       "suite": "deployment",
-      "tests": 116,
+      "tests": 118,
       "passed": true,
       "returncode": 0
     },
@@ -65,7 +65,7 @@
     "research/us_paper.py": "1324933240c4f9111431a4500e7fbfa04b6cabcac4b50868dc8ae83003262411",
     "research/vibe_offline.py": "06f56865328b6bd8ec9bd4dd5ccbfd5f0a2b0f291bdc886b530f25a6527993f4",
     "research_inputs.py": "2f6b33a12e8c1934b6f511128182973775b882d77af75c15be0d5fde241d219d",
-    "review_install.py": "953fa69f499c223def9765405b6e9c1056b6ae75b895676a384b75ca76081388",
+    "review_install.py": "3786045e390c2f974fad7a2156f220b7e26c1521ab6f9d12246edb60c32e8153",
     "scripts/run_test_campaign.py": "75b07fd39f50eb0cea666700e8dffbc2e8af0bf6f6084fb9065402940d6aeb5d",
     "telegram_paper_bot.py": "d69631652078cc94096e5d8b69c88d84eabdc241da0dbc6cdb2586c1ab394245",
     "test_action_review_bootstrap.py": "c31df665fa382300e841092fc54b60eaac7821418448fb1cd77568e88219a39f",
@@ -76,13 +76,12 @@
     "test_prospective_lab.py": "cd432502c15ccd5f0f543d687b6259b7e46afb5333af48a8f02b075838f2a7f5",
     "test_prospective_paper.py": "c406e65ef1669b9e1c1a1fdf0d29e32e61d906c6876fe2efa6f5aee74f038f0b",
     "test_research_inputs.py": "b01d243857909b4cd434d31a5c7563436699b658618ac0bfbca8ffdddb220885",
-    "test_review_install.py": "40588dbf90fffbee3e3e698bc6f0ecb0192580c83171d7b920504be93ac158b6",
-    "test_review_reporting.py": "f99e2ac15b2bedf28037339869bc28d9a3797e17893589f5e12a8aacd9ce8af9",
+    "test_review_install.py": "0ca2c900f279e59143ef145b0e341765495d69d70de0ab1df2b4e4a63d58ca3f",
     "test_telegram_paper_bot.py": "2aa2e2c867aa13d160c54c68baecb417ddcab381dfff198a09c5d3173bfe6e2e",
     "test_us_accounting.py": "170fea09b956daeafb5a6fcdbfadd372daea88e34da18d369b49579c5e128cb2",
     "test_us_paper.py": "593d533e313300b15cfaa42c5290d420af901c7302951cd2a7ec094c3a9b8dff",
     "us_accounting.py": "6892039b2f90db4b9021b579b817c7c2aff27028bd20b7310b71cfdb0a83ba2e",
-    "us_paper.py": "20ad3cde624c99f818273771e692c2006c3cff5d6d19fa659723bbb855ccf0bd"
+    "us_paper.py": "1324933240c4f9111431a4500e7fbfa04b6cabcac4b50868dc8ae83003262411"
   },
   "strategy_validated": false,
   "limitations": "Passing tests verify fixture behavior, not production uptime or trading edge."

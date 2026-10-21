@@ -5,9 +5,60 @@ import tempfile
 import unittest
 import test_action_review_bootstrap
 from review_install import run
+from unittest.mock import patch
 
 
 class ReviewInstallTests(unittest.TestCase):
+    def test_frozen_experiments_remain_compatible_with_deployed_revision(self):
+        from news_paper_lab import FINGERPRINT as news
+        from prospective_lab import FINGERPRINT as shadow
+        self.assertEqual(news,'9b2ed4ceae2a38623fb9d5181e00681064a8eaefe2034a8e54001b98aa403017')
+        self.assertEqual(shadow,'2baf088047c229bf33eb4ce03f549cb936740d6fa5334f8eba43920cdbb14993')
+
+    def test_incomplete_or_different_experiment_refused(self):
+        for change in ('account_missing','fingerprint','version'):
+            with tempfile.TemporaryDirectory() as folder:
+                src,saved,m,now=self.prepare(folder)
+                s=json.loads(saved.read_text())
+                if change=='account_missing':del s['accounts']['baseline:1']
+                else:s[change]='INVALID'
+                saved.write_text(json.dumps(s))
+                with self.assertRaisesRegex(ValueError,'LAB_VERSION_OR_ACCOUNTS_INVALID'):
+                    run(folder,src,now,install=True)
+                self.assertFalse((Path(folder)/'us_automatic/action_reviews/AAPL.json').exists())
+
+    def test_failed_atomic_publication_cleans_temporary_file(self):
+        with tempfile.TemporaryDirectory() as folder:
+            src,saved,m,now=self.prepare(folder);before=saved.read_bytes()
+            with patch('review_install.os.link',side_effect=OSError('private error')):
+                with self.assertRaises(OSError):run(folder,src,now,install=True)
+            self.assertEqual(list((Path(folder)/'us_automatic/action_reviews').iterdir()),[])
+            self.assertEqual(saved.read_bytes(),before)
+
+    def test_valid_review_clears_block_on_normal_lab_observation_without_erasing_invalid_day(self):
+        from news_paper_lab import advance
+        from us_paper import sessions
+        with tempfile.TemporaryDirectory() as folder:
+            src,saved,m,now=self.prepare(folder)
+            s=json.loads(saved.read_text())
+            s['daily_marks']['2026-10-09']['valid']=False
+            s['coverage_gaps']=13
+            for a in s['accounts'].values():a['review_required']=True
+            saved.write_text(json.dumps(s));before=saved.read_bytes()
+            run(folder,src,now,install=True)
+            self.assertEqual(saved.read_bytes(),before)
+            manifest=json.loads((Path(folder)/'us_automatic/action_reviews/AAPL.json').read_text())
+            observed=now+1000
+            a=s['accounts']['baseline:1']
+            q={**a['quote'],'event_ms':observed}
+            calendar=[{'date':'2026-10-09','open':'09:30','close':'16:00'}]
+            news={'valid':True,'latest_receipt_ms':None,'coverage_end_ms':observed-900000}
+            after=advance(s,a['signal'],q,calendar,observed,news,manifest=manifest)
+            self.assertTrue(all(not x['review_required'] for x in after['accounts'].values()))
+            self.assertFalse(after['daily_marks']['2026-10-09']['valid'])
+            self.assertEqual(after['coverage_gaps'],13)
+            self.assertEqual([len(x['ledger']) for x in after['accounts'].values()],[1]*4)
+
     def prepare(self, folder):
         return test_action_review_bootstrap.BootstrapTests().prepare(folder)
 

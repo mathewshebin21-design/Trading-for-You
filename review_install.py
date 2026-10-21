@@ -46,6 +46,20 @@ def run(state_root, source, observed, through=None, install=False):
             record = read(path)
             if not isinstance(record.get('accounts'), dict) or not record['accounts']:
                 raise ValueError('LAB_ACCOUNTS_MISSING')
+            if path.parent.name == 'news_lab':
+                from news_paper_lab import FINGERPRINT, RULES
+                expected={f'{name}:{cost}' for name in RULES['strategies'] for cost in RULES['costs']}
+                version='NEWSLAB.1'
+            else:
+                from prospective_lab import FINGERPRINT, RULES, STRATEGIES
+                expected={f'{name}:{cost}' for name in STRATEGIES for cost in (1,2)}
+                version='LAB.1'
+                if (record.get('symbol') != symbol or record.get('currency') != 'USD'
+                    or json.dumps(record.get('rules'),sort_keys=True) != json.dumps(RULES,sort_keys=True)):
+                    raise ValueError('LAB_RULES_OR_IDENTITY_INVALID')
+            if (record.get('version') != version or record.get('fingerprint') != FINGERPRINT
+                or set(record['accounts']) != expected):
+                raise ValueError('LAB_VERSION_OR_ACCOUNTS_INVALID')
             states.extend(record['accounts'].values())
     if not states:
         raise ValueError('NO_SAVED_ACCOUNTS')

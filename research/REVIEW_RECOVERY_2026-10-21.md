@@ -1,4 +1,4 @@
-# Missing review recovery and truthful reporting
+# Missing review recovery with frozen-experiment compatibility
 
 Owner `/audit` confirms the AAPL review is MISSING. Four lab balance replays pass; 13 gaps and eight invalid days remain. This confirms missing installation, but not the exact earlier startup validation error or validity of the original US account.
 
@@ -8,8 +8,8 @@ The previous startup hard-codes an October 14 review. Its expired coverage preve
 
 - `review_install.py` validates all saved original, shadow, and news accounts on copies, including identity and balance checks. Default is read-only. Explicit `--install` atomically publishes a missing review; existing reviews are preserved. No account files, experiment rules, or historical validity are written.
 - Startup uses this validator and a configurable `PAPER_ACTION_REVIEW_SOURCE`, defaulting to the bundled October 20 review.
-- Blocks and unknown outcomes no longer increment valid-quote counters. Existing counters are retained and labelled as potentially including legacy review blocks.
-- Current P/L is suppressed when accounting is unreviewed or the saved quote is stale. This does not refresh quotes or alter frozen fill/risk handling.
+- The installer verifies lab version, fingerprint and complete account sets before installation.
+- Reporting edits from the first draft have been removed: `us_paper.py` is included in the frozen news-lab fingerprint. Even reporting-only edits would invalidate the existing experiment. Reporting defects remain known limitations; stale P/L and legacy quote counters must not be treated as current performance evidence.
 
 ## Reviewed data and expiry
 
@@ -38,6 +38,12 @@ After a successful current-day installation, the next normal poll reconciles cop
 
 ## Verification
 
-116 application and 144 research fixtures passed in separate interpreters using `scripts/run_test_campaign.py`. Tests cover read-only validation, unchanged account bytes, atomic missing-file installation, existing-file preservation, currency/balance failures, original earlier-date coverage, explicit historical validation, future refusal, blocked counters, and stale/unreviewed P/L suppression.
+118 application and 144 research fixtures passed in separate interpreters using `scripts/run_test_campaign.py`. Tests cover read-only validation, unchanged account bytes, atomic missing-file installation and failure cleanup, existing-file preservation, currency/balance failures, original earlier-date coverage, explicit historical validation, future refusal, incomplete account sets, and frozen-experiment compatibility.
+
+An end-to-end fixture installs a valid review, feeds a normal subsequent lab observation, verifies all four review flags clear, and verifies the 13 recorded gaps, historical invalid day, and one fill per account are retained. This uses synthetic accounts; private production account compatibility remains unverified.
+
+Both frozen fingerprints match the actual deployed source at `107457d89399dcfc610ac635a4d3acf3ce4b9430`: news `9b2ed4ceae2a38623fb9d5181e00681064a8eaefe2034a8e54001b98aa403017`; shadow `2baf088047c229bf33eb4ce03f549cb936740d6fa5334f8eba43920cdbb14993`.
+
+Fresh Railway verification during this follow-up still reports one online replica at `107457d89399dcfc610ac635a4d3acf3ce4b9430`, zero crashes/failures/warnings/criticals over 24 hours. The existing staged change targets `96ad38db59e7ebf4c1bdad588b011918f4c9c76d` and does not include this PR. Neither deploy nor merge has been performed.
 
 No frozen strategy/accounting module changes, production deployment, live orders, or paid services. No profitability conclusion.
